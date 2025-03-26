@@ -1,0 +1,68 @@
+{
+  "sales": [
+    {
+      "title": "Fergusson College",
+      "status": "COLD"
+    },
+    {
+      "title": "Symbiosis International University",
+      "status": "COLD"
+    },
+    {
+      "title": "MIT World Peace University",
+      "status": "ON_CALL"
+    },
+    {
+      "title": "Bharati Vidyapeeth University",
+      "status": "CLOSED"
+    },
+    {
+      "title": "Pune University",
+      "status": "WARM"
+    }
+  ],
+  "learning_and_development": [
+    {
+      "title": "University of Mumbai",
+      "status": "BEGINNER"
+    },
+    {
+      "title": "Delhi University",
+      "status": "INTERMEDIATE"
+    },
+    {
+      "title": "Manipal University",
+      "status": "ADVANCED"
+    },
+    {
+      "title": "Amity University",
+      "status": "COMPLETED"
+    },
+    {
+      "title": "Jadavpur University",
+      "status": "BEGINNER"
+    }
+  ],
+  "placement": [
+    {
+      "title": "Banaras Hindu University",
+      "status": "APPLIED"
+    },
+    {
+      "title": "VIT University",
+      "status": "INTERVIEWED"
+    },
+    {
+      "title": "SRM University",
+      "status": "OFFERED"
+    },
+    {
+      "title": "Thapar University",
+      "status": "PLACED"
+    },
+    {
+      "title": "College of Engineering Pune",
+      "status": "INTERVIEWED"
+    }
+  ]
+}
