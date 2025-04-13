@@ -1,0 +1,84 @@
+{
+    "learning_and_development": [
+      {
+        "status": "COMPLETED",
+        "title": "University of Mumbai",
+        "projectId": "UMU101"
+      },
+      {
+        "status": "INTERMEDIATE",
+        "title": "Delhi University",
+        "projectId": "DU102"
+      },
+      {
+        "status": "ADVANCED",
+        "title": "Manipal University",
+        "projectId": "MU103"
+      },
+      {
+        "status": "CLOSED",
+        "title": "Amity University",
+        "projectId": "AU104"
+      },
+      {
+        "status": "BEGINNER",
+        "title": "Jadavpur University",
+        "projectId": "JU105"
+      }
+    ],
+    "placement": [
+      {
+        "status": "APPLIED",
+        "title": "Banaras Hindu University",
+        "projectId": "BHU201"
+      },
+      {
+        "status": "INTERVIEWED",
+        "title": "VIT University",
+        "projectId": "VIT202"
+      },
+      {
+        "status": "PLACED",
+        "title": "SRM University",
+        "projectId": "SRM203"
+      },
+      {
+        "status": "PLACED",
+        "title": "Thapar University",
+        "projectId": "TU204"
+      },
+      {
+        "status": "OFFERED",
+        "title": "College of Engineering Pune",
+        "projectId": "COEP205"
+      }
+    ],
+    "sales": [
+      {
+        "status": "COLD",
+        "title": "Fergusson College",
+        "projectId": "FC301"
+      },
+      {
+        "status": "CLOSED",
+        "title": "Symbiosis International University",
+        "projectId": "SIU302"
+      },
+      {
+        "status": "WARM",
+        "title": "MIT World Peace University",
+        "projectId": "MITWPU303"
+      },
+      {
+        "status": "ON_CALL",
+        "title": "Bharati Vidyapeeth University",
+        "projectId": "BVU304"
+      },
+      {
+        "status": "COLD",
+        "title": "Pune University",
+        "projectId": "PU305"
+      }
+    ]
+  }
+  

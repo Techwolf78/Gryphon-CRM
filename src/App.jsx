@@ -4,6 +4,7 @@ import Home from './Pages/Home'; // Import Home page
 import SalesKanban from './Components/Sales/SalesKanban'; // Import SalesKanban page
 import Placement from './Components/Placement/PlacementKanban'; // Import Placement page
 import LearningAndDevelopment from './Pages/LearningAndDevelopment'; // Import Learning and Development page
+import CollegeTracker from './Components/CollegeTracker'; // Import College Tracker page
 
 function App() {
   return (
@@ -20,6 +21,9 @@ function App() {
         
         {/* Route for Learning and Development */}
         <Route path="/learning-and-development" element={<LearningAndDevelopment />} />
+
+        {/* Route for College Tracker */}
+        <Route path="/tracker" element={<CollegeTracker />} />
       </Routes>
     </Router>
   );

@@ -1,21 +1,25 @@
-import { useState, useEffect, useMemo } from 'react';
-import { Column } from './Column';
-import { DndContext } from '@dnd-kit/core';
-import { db, ref, get, update, push, onValue } from '../../firebase';
+import { useState, useEffect, useMemo, useRef } from "react";
+import { Column } from "../Sales/Column";
+import { DndContext } from "@dnd-kit/core";
+import { db, ref, get, update, onValue, push } from "../../firebase";
+import AddCollegeModal from "../AddCollegeModal";
 
 const COLUMNS = [
-  { id: 'COLD', title: 'Cold' },
-  { id: 'WARM', title: 'Warm' },
-  { id: 'ON_CALL', title: 'On Call' },
-  { id: 'CLOSED', title: 'Closed' },
+  { id: "COLD", title: "Cold" },
+  { id: "WARM", title: "Warm" },
+  { id: "ON_CALL", title: "On Call" },
+  { id: "CLOSED", title: "Closed" },
 ];
 
 export default function SalesKanban() {
   const [tasks, setTasks] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const recentlyTransferred = useRef(new Set());
+  const [hoveredColumn, setHoveredColumn] = useState(null);
 
   useEffect(() => {
     const fetchTasks = async () => {
-      const tasksRef = ref(db, 'sales');
+      const tasksRef = ref(db, "sales");
       const snapshot = await get(tasksRef);
 
       if (snapshot.exists()) {
@@ -25,14 +29,12 @@ export default function SalesKanban() {
           ...tasksData[taskId],
         }));
         setTasks(formattedTasks);
-      } else {
-        console.log('No tasks found in Firebase');
       }
     };
 
     fetchTasks();
 
-    const tasksRef = ref(db, 'sales');
+    const tasksRef = ref(db, "sales");
     const unsubscribe = onValue(tasksRef, (snapshot) => {
       if (snapshot.exists()) {
         const tasksData = snapshot.val();
@@ -47,69 +49,68 @@ export default function SalesKanban() {
     return () => unsubscribe();
   }, []);
 
-  // Handle the drag-and-drop event and update Realtime Database
-  function handleDragEnd(event) {
+  const handleDragOver = (event) => {
+    const { over } = event;
+    if (over) {
+      setHoveredColumn(over.id);
+    } else {
+      setHoveredColumn(null);
+    }
+  };
+
+  const handleDragEnd = (event) => {
     const { active, over } = event;
-
+  
+    // Clear hovered column state after drag ends
+    setHoveredColumn(null);
+  
+    // If dropped outside any column, do nothing
     if (!over) return;
-
+  
     const taskId = active.id;
     const newStatus = over.id;
-
+  
+    // Only update if the status actually changed
     setTasks((prevTasks) => {
       const updatedTasks = prevTasks.map((task) =>
         task.id === taskId ? { ...task, status: newStatus } : task
       );
+  
+      // Update in database
       updateTaskStatusInDatabase(taskId, newStatus);
-
-      // Check if the task is moved to the last column (CLOSED)
-      if (newStatus === 'CLOSED') {
-        // Check if the task already exists in Learning and Development before adding it
-        checkIfTaskExistsInLD(taskId);
+  
+      // If task moved to CLOSED, create corresponding placement entry
+      if (newStatus === "CLOSED") {
+        createTaskInPlacement(taskId);
       }
-
+  
       return updatedTasks;
     });
-  }
+  };
+  
 
-  // Update task status in Realtime Database
   const updateTaskStatusInDatabase = (taskId, newStatus) => {
     const taskRef = ref(db, `sales/${taskId}`);
-    update(taskRef, {
-      status: newStatus,
-    });
+    update(taskRef, { status: newStatus });
   };
 
-  // Check if task already exists in Learning and Development
-  const checkIfTaskExistsInLD = async (taskId) => {
-    const tasksRef = ref(db, 'learning_and_development');
-    const snapshot = await get(tasksRef);
-    const tasksData = snapshot.val();
-
+  const createTaskInPlacement = async (taskId) => {
     const task = tasks.find((t) => t.id === taskId);
+    if (!task) return;
 
-    // Check if the task already exists in L&D
-    const taskExists = Object.keys(tasksData).some((key) => tasksData[key].title === task.title);
+    if (recentlyTransferred.current.has(task.projectId)) return;
 
-    if (!taskExists) {
-      createTaskInLearningAndDevelopment(taskId);
-    } else {
-      console.log(`Task '${task.title}' already exists in Learning and Development.`);
-    }
-  };
+    recentlyTransferred.current.add(task.projectId);
 
-  // Create the task in Learning and Development if it doesn't already exist
-  const createTaskInLearningAndDevelopment = async (taskId) => {
-    const taskRef = ref(db, 'learning_and_development');
+    const taskRef = ref(db, "learning_and_development");
     const newTaskRef = push(taskRef);
-    const task = tasks.find((t) => t.id === taskId);
     await update(newTaskRef, {
       title: task.title,
-      status: 'BEGINNER',
+      status: "BEGINNER",
+      projectId: task.projectId,
     });
   };
 
-  // Memoize tasks for each column to optimize performance
   const tasksByColumn = useMemo(() => {
     return COLUMNS.reduce((acc, column) => {
       acc[column.id] = tasks.filter((task) => task.status === column.id);
@@ -123,16 +124,29 @@ export default function SalesKanban() {
         Sales Kanban Board
       </div>
 
+      <div className="flex justify-end mb-4">
+        <button
+          onClick={() => setShowModal(true)}
+          className="px-5 py-3 bg-indigo-600 text-white font-medium rounded-lg shadow-md hover:bg-indigo-700"
+        >
+          Add College
+        </button>
+      </div>
+
+      <AddCollegeModal isOpen={showModal} onClose={() => setShowModal(false)} />
+
       <div className="flex gap-8">
-        <DndContext onDragEnd={handleDragEnd}>
-          {COLUMNS.map((column) => (
-            <Column
-              key={column.id}
-              column={column}
-              tasks={tasksByColumn[column.id]}
-            />
-          ))}
-        </DndContext>
+      <DndContext onDragEnd={handleDragEnd} onDragOver={handleDragOver}>
+  {COLUMNS.map((column) => (
+    <Column
+      key={column.id}
+      column={column}
+      tasks={tasksByColumn[column.id]}
+      isHovered={hoveredColumn === column.id}
+    />
+  ))}
+</DndContext>
+
       </div>
     </div>
   );
