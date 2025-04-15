@@ -2,23 +2,17 @@ import { useState, useEffect, useRef } from "react";
 import { db, ref, get, push, update } from "../firebase";
 import { generateProjectId } from "../utils/idGenerator";
 
-const BOARDS = {
-  sales: ["COLD", "WARM", "ON_CALL", "CLOSED"],
-  learning_and_development: [
-    "BEGINNER",
-    "INTERMEDIATE",
-    "ADVANCED",
-    "COMPLETED",
-  ],
-  placement: ["APPLIED", "INTERVIEWED", "OFFERED", "PLACED"],
-};
-
 const normalize = (str) => str.replace(/\s+/g, "").toLowerCase();
 
-export default function AddCollegeModal({ isOpen, onClose }) {
-  const [title, setTitle] = useState("");
-  const [board, setBoard] = useState("sales");
-  const [status, setStatus] = useState("COLD");
+export default function AddBusinessModal({ isOpen, onClose, board = "sales" }) {
+  const [businessName, setBusinessName] = useState("");
+  const [address, setAddress] = useState("");
+  const [pocName, setPocName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [hasStudentCount, setHasStudentCount] = useState(null);
+  const [studentCount, setStudentCount] = useState("");
+  const [costPerStudent, setCostPerStudent] = useState("");
+  const [manualTCV, setManualTCV] = useState("");
 
   const [checking, setChecking] = useState(false);
   const [nameExists, setNameExists] = useState(false);
@@ -26,10 +20,15 @@ export default function AddCollegeModal({ isOpen, onClose }) {
 
   const debounceRef = useRef(null);
 
-  // Fetch existing names when modal opens
+  const defaultStatus = {
+    sales: "COLD",
+    learning_and_development: "BEGINNER",
+    placement: "APPLIED",
+  }[board];
+
   useEffect(() => {
     const fetchNames = async () => {
-      const allNodes = Object.keys(BOARDS);
+      const allNodes = ["sales", "learning_and_development", "placement"];
       let allNames = [];
 
       for (const node of allNodes) {
@@ -50,9 +49,8 @@ export default function AddCollegeModal({ isOpen, onClose }) {
     if (isOpen) fetchNames();
   }, [isOpen]);
 
-  // Realtime validation with debounce
   useEffect(() => {
-    if (!title.trim()) {
+    if (!businessName.trim()) {
       setNameExists(false);
       return;
     }
@@ -63,157 +61,187 @@ export default function AddCollegeModal({ isOpen, onClose }) {
     if (debounceRef.current) clearTimeout(debounceRef.current);
 
     debounceRef.current = setTimeout(() => {
-      const isDuplicate = allNormalizedNames.includes(normalize(title));
+      const isDuplicate = allNormalizedNames.includes(normalize(businessName));
       setNameExists(isDuplicate);
       setChecking(false);
     }, 500);
-  }, [title, allNormalizedNames]);
+  }, [businessName, allNormalizedNames]);
 
-  const handleAddCollege = async () => {
-    if (!title.trim() || nameExists) return;
+  const totalContractValue =
+    hasStudentCount === true
+      ? Number(studentCount || 0) * Number(costPerStudent || 0)
+      : Number(manualTCV || 0);
 
-    const projectId = generateProjectId(title, allNormalizedNames);
+  const handleAddBusiness = async () => {
+    if (!businessName.trim() || nameExists) return;
+
+    const projectId = generateProjectId(businessName, allNormalizedNames);
     const newTaskRef = push(ref(db, board));
 
     await update(newTaskRef, {
-      title,
-      status,
+      title: businessName,
+      address,
+      pocName,
+      phone,
+      status: defaultStatus,
       projectId,
+      totalContractValue,
     });
 
     onClose();
-    setTitle("");
-    setBoard("sales");
-    setStatus("COLD");
+    setBusinessName("");
+    setAddress("");
+    setPocName("");
+    setPhone("");
+    setStudentCount("");
+    setCostPerStudent("");
+    setManualTCV("");
+    setHasStudentCount(null);
   };
 
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
-      <div className="bg-white p-8 rounded-xl shadow-xl w-full max-w-md transition-all duration-300">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6">
-          Add New College
-        </h2>
+      <div className="bg-white p-6 rounded-xl shadow-xl w-full max-w-lg">
+        <h2 className="text-2xl font-bold text-gray-800 mb-6">Add New Business</h2>
 
-        {/* College Name Input */}
-        <div className="mb-5 relative">
-          <label className="block text-sm font-semibold text-gray-600 mb-2">
-            College Name
-          </label>
+        {/* Business Name */}
+        <div className="mb-4">
+          <label className="block text-sm font-semibold text-gray-600 mb-2">Business Name</label>
           <input
             type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="e.g. Pune University"
-            className={`w-full pr-10 px-4 py-2 border text-gray-800 rounded-lg outline-none transition ring-2 ${
-              nameExists
-                ? "border-red-500 ring-red-100"
-                : "border-gray-300 ring-transparent focus:ring-[#008370]"
+            value={businessName}
+            onChange={(e) => setBusinessName(e.target.value)}
+            placeholder="e.g. Acme Corp"
+            className={`w-full px-4 py-2 border text-gray-800 rounded-lg outline-none focus:ring-2 ${
+              nameExists ? "border-red-500 ring-red-100" : "border-gray-300 ring-transparent focus:ring-[#008370]"
             }`}
           />
-
-          {/* Spinner / Check / Cross */}
-          <div className="absolute top-10 right-3">
-            {checking ? (
-              <div className="w-4 h-4 border-2 border-t-transparent border-gray-400 rounded-full animate-spin" />
-            ) : title.trim() ? (
-              nameExists ? (
-                <button
-                  type="button"
-                  onClick={() => setTitle("")}
-                  className="text-gray-600 hover:text-black transition"
-                  title="Clear and enter a different name"
-                >
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-              ) : (
-                <svg
-                  className="w-6 h-6 text-green-500"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-              )
-            ) : null}
-          </div>
-
-          {nameExists && (
-            <p className="text-sm mt-2 text-red-600">
-              College name already exists.
-            </p>
-          )}
+          {nameExists && <p className="text-sm text-red-600">Business name already exists.</p>}
         </div>
 
-        {/* Selects */}
-        <div className="mb-6 flex gap-4">
-          <div className="w-1/2">
-            <label className="block text-sm font-semibold text-gray-600 mb-2">
-              Board
-            </label>
-            <select
-              value={board}
-              onChange={(e) => {
-                setBoard(e.target.value);
-                setStatus(BOARDS[e.target.value][0]);
-              }}
+        {/* Address, POC Name & Phone No. (Side by Side) */}
+        <div className="grid grid-cols-3 gap-4 mb-6">
+          <div>
+            <label className="block text-sm font-semibold text-gray-600 mb-2">Address</label>
+            <input
+              type="text"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              placeholder="e.g. 123 Main St"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#008370]"
-            >
-              {Object.keys(BOARDS).map((key) => (
-                <option key={key} value={key}>
-                  {key.replace(/_/g, " ")}
-                </option>
-              ))}
-            </select>
+            />
           </div>
 
-          <div className="w-1/2">
-            <label className="block text-sm font-semibold text-gray-600 mb-2">
-              Status
-            </label>
-            <select
-              value={status}
-              onChange={(e) => setStatus(e.target.value)}
+          <div>
+            <label className="block text-sm font-semibold text-gray-600 mb-2">POC Name</label>
+            <input
+              type="text"
+              value={pocName}
+              onChange={(e) => setPocName(e.target.value)}
+              placeholder="e.g. John Doe"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#008370]"
-            >
-              {BOARDS[board].map((s) => (
-                <option key={s}>{s}</option>
-              ))}
-            </select>
+            />
           </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-gray-600 mb-2">Phone No.</label>
+            <input
+              type="text"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="e.g. +91 9876543210"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#008370]"
+            />
+          </div>
+        </div>
+
+        {/* Student Count Section */}
+        <div className="mb-6">
+          <label className="block text-sm font-semibold text-gray-700 mb-2">Do you have Student Count?</label>
+          <div className="flex gap-6 mb-4">
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                name="studentCountAvailable"
+                checked={hasStudentCount === true}
+                onChange={() => setHasStudentCount(true)}
+              />
+              Yes
+            </label>
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                name="studentCountAvailable"
+                checked={hasStudentCount === false}
+                onChange={() => setHasStudentCount(false)}
+              />
+              No
+            </label>
+          </div>
+
+          {hasStudentCount === true && (
+            <>
+              <div className="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-600 mb-2">Total Student Count</label>
+                  <input
+                    type="number"
+                    value={studentCount}
+                    onChange={(e) => setStudentCount(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#008370]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-600 mb-2">Cost Per Student</label>
+                  <input
+                    type="number"
+                    value={costPerStudent}
+                    onChange={(e) => setCostPerStudent(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#008370]"
+                  />
+                </div>
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-sm font-semibold text-gray-600 mb-2">Total Contract Value</label>
+                <input
+                  type="number"
+                  value={Number(studentCount || 0) * Number(costPerStudent || 0)}
+                  disabled
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed"
+                />
+              </div>
+            </>
+          )}
+
+          {hasStudentCount === false && (
+            <div className="mb-4">
+              <label className="block text-sm font-semibold text-gray-600 mb-2">Total Contract Value</label>
+              <input
+                type="number"
+                value={manualTCV}
+                onChange={(e) => setManualTCV(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#008370]"
+              />
+            </div>
+          )}
         </div>
 
         {/* Actions */}
         <div className="flex justify-between items-center">
           <button
-            onClick={handleAddCollege}
-            disabled={!title.trim() || nameExists}
+            onClick={handleAddBusiness}
+            disabled={!businessName.trim() || nameExists}
             className={`px-5 py-2.5 rounded-lg text-white font-medium transition ${
-              !title.trim() || nameExists
+              !businessName.trim() || nameExists
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-[#008370] hover:bg-[#006e56]"
             }`}
           >
-            Add College
+            Add Business
           </button>
 
           <button

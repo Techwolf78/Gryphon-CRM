@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import { Column } from "../Sales/Column"; // Assuming you have the Column component for each task column
 import { DndContext } from "@dnd-kit/core";
 import { db, ref, get, update, onValue } from "../../firebase";
-import AddCollegeModal from "../AddCollegeModal";
+import AddBusinessModal from "../AddCollegeModal";
 
 const COLUMNS = [
   { id: "APPLIED", title: "Applied" },
@@ -119,7 +119,8 @@ export default function PlacementKanban() {
         </button>
       </div>
 
-      <AddCollegeModal isOpen={showModal} onClose={() => setShowModal(false)} />
+      <AddBusinessModal isOpen={showModal} onClose={() => setShowModal(false)} board="placement" />
+
 
       <div className="flex gap-8">
         <DndContext onDragEnd={handleDragEnd} onDragOver={handleDragOver}>

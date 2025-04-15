@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo, useRef } from "react";
 import { Column } from "../Sales/Column";
 import { DndContext } from "@dnd-kit/core";
 import { db, ref, get, update, onValue, push } from "../../firebase";
-import AddCollegeModal from "../AddCollegeModal";
+import AddBusinessModal from "../AddCollegeModal";
 
 const COLUMNS = [
   { id: "COLD", title: "Cold" },
@@ -114,7 +114,8 @@ export default function SalesKanban() {
         </button>
       </div>
 
-      <AddCollegeModal isOpen={showModal} onClose={() => setShowModal(false)} />
+      <AddBusinessModal isOpen={showModal} onClose={() => setShowModal(false)} board="sales" />
+
 
       <DndContext onDragEnd={handleDragEnd} onDragOver={handleDragOver}>
         <div className="flex gap-6 overflow-x-auto pb-4">
