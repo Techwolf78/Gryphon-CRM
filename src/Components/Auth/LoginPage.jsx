@@ -1,62 +1,61 @@
-// Components/Auth/LoginPage.jsx
-import { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase";
+import React, { useState } from 'react';
+import { auth } from '../../firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 
-export default function LoginPage({ onLogin }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+const LoginPage = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError("");
+    setError('');
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      onLogin(); // Trigger redirect
-    } catch (err) {
-      setError("Invalid email or password.");
+      const res = await signInWithEmailAndPassword(auth, email, password);
+      const userEmail = res.user.email;
+
+      // Redirect based on email
+      if (userEmail === 'crm@gmail.com' || userEmail === 'ummi@gryphonacademy.co.in' || userEmail === 'shashi@gryphonacademy.co.in') navigate('/');
+      else if (userEmail === 'sales@gmail.com') navigate('/sales');
+      else if (userEmail === 'placement@gmail.com') navigate('/placement');
+      else if (userEmail === 'landd@gmail.com') navigate('/learning-and-development');
+      else navigate('/login'); // Unknown user
+    } catch {
+      setError('Invalid email or password');
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-      <div className="max-w-md w-full bg-white p-8 rounded-xl shadow">
-        <h2 className="text-2xl font-bold mb-6 text-gray-800">Sign in to your account</h2>
-        <form onSubmit={handleLogin} className="space-y-5">
-          <div>
-            <label className="text-sm font-medium text-gray-700">Email</label>
-            <input
-              type="email"
-              className="w-full px-4 py-2 border rounded-lg mt-1 focus:ring-2 focus:ring-[#008370]"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-
-          <div>
-            <label className="text-sm font-medium text-gray-700">Password</label>
-            <input
-              type="password"
-              className="w-full px-4 py-2 border rounded-lg mt-1 focus:ring-2 focus:ring-[#008370]"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-
-          {error && <p className="text-red-500 text-sm">{error}</p>}
-
-          <button
-            type="submit"
-            className="w-full bg-[#008370] text-white py-2 rounded-lg font-medium hover:bg-[#006b5d] transition"
-          >
-            Sign In
-          </button>
-        </form>
-      </div>
+    <div className="flex items-center justify-center h-screen bg-[#F5F5F5]"> {/* Background Color */}
+      <form onSubmit={handleLogin} className="bg-white p-6 rounded shadow-md w-full max-w-sm">
+        <h2 className="text-xl font-semibold mb-4 text-[#006B5D]">Login</h2> {/* Title Color */}
+        {error && <p className="text-red-500 text-sm mb-3">{error}</p>}
+        
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          className="w-full p-2 border mb-3 rounded text-[#006B5D] border-[#006B5D] focus:outline-none focus:ring-2 focus:ring-[#00A388]" // Input Color
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          className="w-full p-2 border mb-3 rounded text-[#006B5D] border-[#006B5D] focus:outline-none focus:ring-2 focus:ring-[#00A388]" // Input Color
+        />
+        <button type="submit" className="w-full bg-[#006B5D] text-white py-2 rounded hover:bg-[#00A388] transition-all">
+          Login
+        </button>
+      </form>
     </div>
   );
-}
+};
+
+export default LoginPage;
