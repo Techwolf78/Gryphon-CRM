@@ -3,6 +3,7 @@ import { Column } from "../Sales/Column";
 import { DndContext } from "@dnd-kit/core";
 import { db, ref, get, update, onValue, push } from "../../firebase";
 import AddBusinessModal from "../AddCollegeModal";
+import TaskDetailModal from "../Sales/TaskDetailModal"; // 👈 Import new modal
 
 const COLUMNS = [
   { id: "BEGINNER", title: "Beginner" },
@@ -14,6 +15,7 @@ const COLUMNS = [
 export default function LDKanban() {
   const [tasks, setTasks] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null); // 👈 For detail modal
   const recentlyTransferred = useRef(new Set());
   const [hoveredColumn, setHoveredColumn] = useState(null);
 
@@ -93,6 +95,10 @@ export default function LDKanban() {
     update(taskRef, { status: newStatus });
   };
 
+  const onTaskClick = (task) => {
+    setSelectedTask(task);
+  };
+
   const createTaskInPlacement = async (taskId) => {
     const task = tasks.find((t) => t.id === taskId);
     if (!task) return;
@@ -134,6 +140,9 @@ export default function LDKanban() {
 
       <AddBusinessModal isOpen={showModal} onClose={() => setShowModal(false)} board="learning_and_development" />
 
+      {/* Detail Modal */}
+      <TaskDetailModal isOpen={!!selectedTask} onClose={() => setSelectedTask(null)} task={selectedTask} />
+
       <div className="flex gap-8">
         <DndContext onDragEnd={handleDragEnd} onDragOver={handleDragOver}>
           {COLUMNS.map((column) => (
@@ -142,6 +151,7 @@ export default function LDKanban() {
               column={column}
               tasks={tasksByColumn[column.id]}
               isHovered={hoveredColumn === column.id}
+              onTaskClick={onTaskClick} // 👈 Pass click handler
             />
           ))}
         </DndContext>

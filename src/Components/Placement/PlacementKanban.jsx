@@ -3,6 +3,7 @@ import { Column } from "../Sales/Column"; // Assuming you have the Column compon
 import { DndContext } from "@dnd-kit/core";
 import { db, ref, get, update, onValue } from "../../firebase";
 import AddBusinessModal from "../AddCollegeModal";
+import TaskDetailModal from "../Sales/TaskDetailModal"; // 👈 Import new modal
 
 const COLUMNS = [
   { id: "APPLIED", title: "Applied" },
@@ -14,6 +15,7 @@ const COLUMNS = [
 export default function PlacementKanban() {
   const [tasks, setTasks] = useState([]);
   const [showModal, setShowModal] = useState(false);
+    const [selectedTask, setSelectedTask] = useState(null); // 👈 For detail modal
   const [hoveredColumn, setHoveredColumn] = useState(null);
 
   useEffect(() => {
@@ -103,6 +105,10 @@ export default function PlacementKanban() {
     }, {});
   }, [tasks]);
 
+  const onTaskClick = (task) => {
+    setSelectedTask(task);
+  };
+
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
       {/* Heading */}
@@ -121,6 +127,8 @@ export default function PlacementKanban() {
 
       <AddBusinessModal isOpen={showModal} onClose={() => setShowModal(false)} board="placement" />
 
+      {/* Detail Modal */}
+      <TaskDetailModal isOpen={!!selectedTask} onClose={() => setSelectedTask(null)} task={selectedTask} />
 
       <div className="flex gap-8">
         <DndContext onDragEnd={handleDragEnd} onDragOver={handleDragOver}>
@@ -130,6 +138,7 @@ export default function PlacementKanban() {
               column={column}
               tasks={tasksByColumn[column.id]}
               isHovered={hoveredColumn === column.id}
+              onTaskClick={onTaskClick} // 👈 Pass click handler
             />
           ))}
         </DndContext>

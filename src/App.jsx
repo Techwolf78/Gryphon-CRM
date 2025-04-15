@@ -1,11 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Layout from './Components/Layout';
+import Layout from './Components/Sidebar/Layout';
 import Home from './Pages/Home';
 import SalesKanban from './Components/Sales/SalesKanban';
 import Placement from './Components/Placement/PlacementKanban';
 import LearningAndDevelopment from './Pages/LearningAndDevelopment';
-import CollegeTracker from './Components/CollegeTracker';
+import CollegeTracker from './Pages/CollegeTracker';
 import LoginPage from './Components/Auth/LoginPage';
 import ProtectedRoute from './Components/Auth/ProtectedRoute';
 

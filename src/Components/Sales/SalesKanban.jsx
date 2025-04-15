@@ -3,6 +3,7 @@ import { Column } from "../Sales/Column";
 import { DndContext } from "@dnd-kit/core";
 import { db, ref, get, update, onValue, push } from "../../firebase";
 import AddBusinessModal from "../AddCollegeModal";
+import TaskDetailModal from "../Sales/TaskDetailModal"; // 👈 Import new modal
 
 const COLUMNS = [
   { id: "COLD", title: "Cold" },
@@ -14,6 +15,7 @@ const COLUMNS = [
 export default function SalesKanban() {
   const [tasks, setTasks] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null); // 👈 For detail modal
   const recentlyTransferred = useRef(new Set());
   const [hoveredColumn, setHoveredColumn] = useState(null);
 
@@ -99,6 +101,10 @@ export default function SalesKanban() {
     }, {});
   }, [tasks]);
 
+  const onTaskClick = (task) => {
+    setSelectedTask(task);
+  };
+
   return (
     <div className="p-6 bg-white min-h-screen">
       <div className="text-3xl font-bold text-[#000000] mb-6">
@@ -116,6 +122,8 @@ export default function SalesKanban() {
 
       <AddBusinessModal isOpen={showModal} onClose={() => setShowModal(false)} board="sales" />
 
+      {/* Detail Modal */}
+      <TaskDetailModal isOpen={!!selectedTask} onClose={() => setSelectedTask(null)} task={selectedTask} />
 
       <DndContext onDragEnd={handleDragEnd} onDragOver={handleDragOver}>
         <div className="flex gap-6 overflow-x-auto pb-4">
@@ -126,6 +134,7 @@ export default function SalesKanban() {
               tasks={tasksByColumn[column.id]}
               isHovered={hoveredColumn === column.id}
               brandColor="#008370"
+              onTaskClick={onTaskClick} // 👈 Pass click handler
             />
           ))}
         </div>

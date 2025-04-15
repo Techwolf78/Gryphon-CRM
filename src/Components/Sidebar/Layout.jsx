@@ -7,7 +7,7 @@ import {
 } from 'react-icons/fa';
 import Profile from './Profile';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '../firebase';
+import { auth } from '../../firebase';
 
 const Layout = ({ children }) => {
   const [isOpen, setIsOpen] = useState(true);

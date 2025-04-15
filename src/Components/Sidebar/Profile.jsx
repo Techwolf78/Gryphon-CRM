@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { signOut } from "firebase/auth";
-import { auth } from "../../src/firebase";
+import { auth } from "../../firebase";
 import { useNavigate } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa"; // Importing user icon from react-icons
-import logoutIcon from "../../src/assets/log.png";
+import logoutIcon from "../../assets/log.png";
 
 const Profile = ({ isOpen }) => {
   const [showTooltip, setShowTooltip] = useState(false);
