@@ -41,7 +41,7 @@ const Layout = () => {
           {/* Top Toggle */}
           <div className="flex items-center justify-between p-4 text-white">
             <span className="text-xl font-bold">
-              {isOpen ? 'College CRM' : 'CRM'}
+              {isOpen ? 'Gryphon CRM' : 'CRM'}
             </span>
             <button onClick={toggleSidebar}>
               <FaBars />
