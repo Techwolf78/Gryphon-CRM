@@ -10,7 +10,7 @@ const Profile = ({ isOpen }) => {
         <FaUserCircle size={24} />
       </div>
       {/* Display name if sidebar is open */}
-      {isOpen && <span className="ml-3">John Doe</span>}
+      {isOpen && <span className="ml-3">Manish Chopra</span>}
     </div>
   );
 };
