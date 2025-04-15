@@ -35,14 +35,14 @@ export default function CollegeTracker() {
             value={projectId}
             onChange={(e) => setProjectId(e.target.value.toUpperCase())}
             placeholder="Enter Project ID (e.g., PU305)"
-            className="w-full p-4 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none text-lg"
+            className="w-full p-4 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:outline-none text-lg"
           />
         </div>
 
         {/* Track Progress Button */}
         <button
           onClick={handleSearch}
-          className="w-full px-6 py-3 bg-indigo-600 text-white rounded-lg shadow-md transform transition duration-300 hover:bg-indigo-700 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-50"
+          className="w-full px-6 py-3 bg-[#008370] text-white rounded-lg shadow-md transform transition duration-300 hover:bg-[#006B5D] hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-50"
         >
           Track Progress
         </button>

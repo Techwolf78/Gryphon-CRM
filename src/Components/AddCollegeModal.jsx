@@ -109,7 +109,7 @@ export default function AddCollegeModal({ isOpen, onClose }) {
             className={`w-full pr-10 px-4 py-2 border text-gray-800 rounded-lg outline-none transition ring-2 ${
               nameExists
                 ? "border-red-500 ring-red-100"
-                : "border-gray-300 ring-transparent focus:ring-indigo-200"
+                : "border-gray-300 ring-transparent focus:ring-[#008370]"
             }`}
           />
 
@@ -176,7 +176,7 @@ export default function AddCollegeModal({ isOpen, onClose }) {
                 setBoard(e.target.value);
                 setStatus(BOARDS[e.target.value][0]);
               }}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-200"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#008370]"
             >
               {Object.keys(BOARDS).map((key) => (
                 <option key={key} value={key}>
@@ -193,7 +193,7 @@ export default function AddCollegeModal({ isOpen, onClose }) {
             <select
               value={status}
               onChange={(e) => setStatus(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-200"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#008370]"
             >
               {BOARDS[board].map((s) => (
                 <option key={s}>{s}</option>
@@ -210,7 +210,7 @@ export default function AddCollegeModal({ isOpen, onClose }) {
             className={`px-5 py-2.5 rounded-lg text-white font-medium transition ${
               !title.trim() || nameExists
                 ? "bg-gray-400 cursor-not-allowed"
-                : "bg-indigo-600 hover:bg-indigo-700"
+                : "bg-[#008370] hover:bg-[#006e56]"
             }`}
           >
             Add College

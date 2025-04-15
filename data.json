@@ -1,84 +1,308 @@
 {
-    "learning_and_development": [
-      {
-        "status": "COMPLETED",
-        "title": "University of Mumbai",
-        "projectId": "UMU101"
-      },
-      {
-        "status": "INTERMEDIATE",
-        "title": "Delhi University",
-        "projectId": "DU102"
-      },
-      {
-        "status": "ADVANCED",
-        "title": "Manipal University",
-        "projectId": "MU103"
-      },
-      {
-        "status": "CLOSED",
-        "title": "Amity University",
-        "projectId": "AU104"
-      },
-      {
-        "status": "BEGINNER",
-        "title": "Jadavpur University",
-        "projectId": "JU105"
-      }
-    ],
-    "placement": [
-      {
-        "status": "APPLIED",
-        "title": "Banaras Hindu University",
-        "projectId": "BHU201"
-      },
-      {
-        "status": "INTERVIEWED",
-        "title": "VIT University",
-        "projectId": "VIT202"
-      },
-      {
-        "status": "PLACED",
-        "title": "SRM University",
-        "projectId": "SRM203"
-      },
-      {
-        "status": "PLACED",
-        "title": "Thapar University",
-        "projectId": "TU204"
-      },
-      {
-        "status": "OFFERED",
-        "title": "College of Engineering Pune",
-        "projectId": "COEP205"
-      }
-    ],
-    "sales": [
-      {
-        "status": "COLD",
-        "title": "Fergusson College",
-        "projectId": "FC301"
-      },
-      {
-        "status": "CLOSED",
-        "title": "Symbiosis International University",
-        "projectId": "SIU302"
-      },
-      {
-        "status": "WARM",
-        "title": "MIT World Peace University",
-        "projectId": "MITWPU303"
-      },
-      {
-        "status": "ON_CALL",
-        "title": "Bharati Vidyapeeth University",
-        "projectId": "BVU304"
-      },
-      {
-        "status": "COLD",
-        "title": "Pune University",
-        "projectId": "PU305"
-      }
-    ]
-  }
-  
+  "learning_and_development": [
+    {
+      "status": "COMPLETED",
+      "title": "University of Mumbai",
+      "projectId": "UMU101"
+    },
+    {
+      "status": "INTERMEDIATE",
+      "title": "Delhi University",
+      "projectId": "DU102"
+    },
+    {
+      "status": "ADVANCED",
+      "title": "Manipal University",
+      "projectId": "MU103"
+    },
+    {
+      "status": "CLOSED",
+      "title": "Amity University",
+      "projectId": "AU104"
+    },
+    {
+      "status": "BEGINNER",
+      "title": "Jadavpur University",
+      "projectId": "JU105"
+    },
+    {
+      "status": "COMPLETED",
+      "title": "Banaras Hindu University",
+      "projectId": "BHU106"
+    },
+    {
+      "status": "INTERMEDIATE",
+      "title": "Jawaharlal Nehru University",
+      "projectId": "JNU107"
+    },
+    {
+      "status": "ADVANCED",
+      "title": "Indian Institute of Technology Bombay",
+      "projectId": "IITB108"
+    },
+    {
+      "status": "CLOSED",
+      "title": "University of Delhi",
+      "projectId": "UD109"
+    },
+    {
+      "status": "BEGINNER",
+      "title": "University of Calcutta",
+      "projectId": "UC110"
+    },
+    {
+      "status": "COMPLETED",
+      "title": "Pune University",
+      "projectId": "PU111"
+    },
+    {
+      "status": "INTERMEDIATE",
+      "title": "University of Madras",
+      "projectId": "UM112"
+    },
+    {
+      "status": "ADVANCED",
+      "title": "Bangalore University",
+      "projectId": "BU113"
+    },
+    {
+      "status": "CLOSED",
+      "title": "University of Kerala",
+      "projectId": "UK114"
+    },
+    {
+      "status": "BEGINNER",
+      "title": "Osmania University",
+      "projectId": "OU115"
+    },
+    {
+      "status": "COMPLETED",
+      "title": "University of Hyderabad",
+      "projectId": "UH116"
+    },
+    {
+      "status": "INTERMEDIATE",
+      "title": "University of Rajasthan",
+      "projectId": "UR117"
+    },
+    {
+      "status": "ADVANCED",
+      "title": "University of Pune",
+      "projectId": "UP118"
+    },
+    {
+      "status": "CLOSED",
+      "title": "Vishwakarma Institute of Technology",
+      "projectId": "VIT119"
+    },
+    {
+      "status": "BEGINNER",
+      "title": "Dr. Babasaheb Ambedkar Marathwada University",
+      "projectId": "BAMU120"
+    }
+  ],
+  "placement": [
+    {
+      "status": "APPLIED",
+      "title": "Banaras Hindu University",
+      "projectId": "BHU201"
+    },
+    {
+      "status": "INTERVIEWED",
+      "title": "VIT University",
+      "projectId": "VIT202"
+    },
+    {
+      "status": "PLACED",
+      "title": "SRM University",
+      "projectId": "SRM203"
+    },
+    {
+      "status": "PLACED",
+      "title": "Thapar University",
+      "projectId": "TU204"
+    },
+    {
+      "status": "OFFERED",
+      "title": "College of Engineering Pune",
+      "projectId": "COEP205"
+    },
+    {
+      "status": "APPLIED",
+      "title": "Indian Institute of Technology Delhi",
+      "projectId": "IITD206"
+    },
+    {
+      "status": "INTERVIEWED",
+      "title": "University of Mumbai",
+      "projectId": "UM207"
+    },
+    {
+      "status": "PLACED",
+      "title": "Jadavpur University",
+      "projectId": "JU208"
+    },
+    {
+      "status": "PLACED",
+      "title": "Manipal University",
+      "projectId": "MU209"
+    },
+    {
+      "status": "OFFERED",
+      "title": "Amity University",
+      "projectId": "AU210"
+    },
+    {
+      "status": "APPLIED",
+      "title": "MIT World Peace University",
+      "projectId": "MITWPU211"
+    },
+    {
+      "status": "INTERVIEWED",
+      "title": "University of Madras",
+      "projectId": "UM212"
+    },
+    {
+      "status": "PLACED",
+      "title": "Jamia Millia Islamia",
+      "projectId": "JMI213"
+    },
+    {
+      "status": "PLACED",
+      "title": "Bangalore University",
+      "projectId": "BU214"
+    },
+    {
+      "status": "OFFERED",
+      "title": "Shiv Nadar University",
+      "projectId": "SNU215"
+    },
+    {
+      "status": "APPLIED",
+      "title": "Pune University",
+      "projectId": "PU216"
+    },
+    {
+      "status": "INTERVIEWED",
+      "title": "Symbiosis International University",
+      "projectId": "SIU217"
+    },
+    {
+      "status": "PLACED",
+      "title": "University of Delhi",
+      "projectId": "UD218"
+    },
+    {
+      "status": "PLACED",
+      "title": "Guru Nanak Dev University",
+      "projectId": "GNDU219"
+    },
+    {
+      "status": "OFFERED",
+      "title": "Chandigarh University",
+      "projectId": "CU220"
+    }
+  ],
+  "sales": [
+    {
+      "status": "COLD",
+      "title": "Fergusson College",
+      "projectId": "FC301"
+    },
+    {
+      "status": "CLOSED",
+      "title": "Symbiosis International University",
+      "projectId": "SIU302"
+    },
+    {
+      "status": "WARM",
+      "title": "MIT World Peace University",
+      "projectId": "MITWPU303"
+    },
+    {
+      "status": "ON_CALL",
+      "title": "Bharati Vidyapeeth University",
+      "projectId": "BVU304"
+    },
+    {
+      "status": "COLD",
+      "title": "Pune University",
+      "projectId": "PU305"
+    },
+    {
+      "status": "CLOSED",
+      "title": "Delhi University",
+      "projectId": "DU306"
+    },
+    {
+      "status": "WARM",
+      "title": "Manipal University",
+      "projectId": "MU307"
+    },
+    {
+      "status": "ON_CALL",
+      "title": "VIT University",
+      "projectId": "VIT308"
+    },
+    {
+      "status": "COLD",
+      "title": "University of Mumbai",
+      "projectId": "UM309"
+    },
+    {
+      "status": "CLOSED",
+      "title": "Indian Institute of Technology Bombay",
+      "projectId": "IITB310"
+    },
+    {
+      "status": "WARM",
+      "title": "Amity University",
+      "projectId": "AU311"
+    },
+    {
+      "status": "ON_CALL",
+      "title": "Jawaharlal Nehru University",
+      "projectId": "JNU312"
+    },
+    {
+      "status": "COLD",
+      "title": "Banaras Hindu University",
+      "projectId": "BHU313"
+    },
+    {
+      "status": "CLOSED",
+      "title": "University of Hyderabad",
+      "projectId": "UH314"
+    },
+    {
+      "status": "WARM",
+      "title": "Shivaji University",
+      "projectId": "SU315"
+    },
+    {
+      "status": "ON_CALL",
+      "title": "Jadavpur University",
+      "projectId": "JU316"
+    },
+    {
+      "status": "COLD",
+      "title": "University of Calcutta",
+      "projectId": "UC317"
+    },
+    {
+      "status": "CLOSED",
+      "title": "Guru Gobind Singh Indraprastha University",
+      "projectId": "GGSIPU318"
+    },
+    {
+      "status": "WARM",
+      "title": "Rajiv Gandhi University",
+      "projectId": "RGU319"
+    },
+    {
+      "status": "ON_CALL",
+      "title": "University of Rajasthan",
+      "projectId": "UR320"
+    }
+  ]
+}

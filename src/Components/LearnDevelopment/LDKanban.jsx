@@ -60,30 +60,30 @@ export default function LDKanban() {
 
   const handleDragEnd = (event) => {
     const { active, over } = event;
-  
+
     // Clear hovered column state after drag ends
     setHoveredColumn(null);
-  
+
     // If dropped outside any column, do nothing
     if (!over) return;
-  
+
     const taskId = active.id;
     const newStatus = over.id;
-  
+
     // Only update if the status actually changed
     setTasks((prevTasks) => {
       const updatedTasks = prevTasks.map((task) =>
         task.id === taskId ? { ...task, status: newStatus } : task
       );
-  
+
       // Update in database
       updateTaskStatusInDatabase(taskId, newStatus);
-  
+
       // If task moved to CLOSED, create corresponding placement entry
       if (newStatus === "COMPLETED") {
         createTaskInPlacement(taskId);
       }
-  
+
       return updatedTasks;
     });
   };
@@ -123,28 +123,28 @@ export default function LDKanban() {
         Learning and Development Kanban Board
       </div>
 
-      <div className="flex justify-end mb-4">
+      <div className="flex justify-end mb-6">
         <button
           onClick={() => setShowModal(true)}
-          className="px-5 py-3 bg-indigo-600 text-white font-medium rounded-lg shadow-md hover:bg-indigo-700"
+          className="px-5 py-3 bg-[#008370] text-white font-medium rounded-lg shadow hover:bg-[#006B5D] transition"
         >
-          Add College
+          + Add College
         </button>
       </div>
 
       <AddCollegeModal isOpen={showModal} onClose={() => setShowModal(false)} />
 
       <div className="flex gap-8">
-      <DndContext onDragEnd={handleDragEnd} onDragOver={handleDragOver}>
-  {COLUMNS.map((column) => (
-    <Column
-      key={column.id}
-      column={column}
-      tasks={tasksByColumn[column.id]}
-      isHovered={hoveredColumn === column.id}
-    />
-  ))}
-</DndContext>
+        <DndContext onDragEnd={handleDragEnd} onDragOver={handleDragOver}>
+          {COLUMNS.map((column) => (
+            <Column
+              key={column.id}
+              column={column}
+              tasks={tasksByColumn[column.id]}
+              isHovered={hoveredColumn === column.id}
+            />
+          ))}
+        </DndContext>
       </div>
     </div>
   );
