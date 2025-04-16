@@ -5,7 +5,7 @@ export default function TaskDetailModal({ isOpen, onClose, task }) {
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-50 transition-opacity duration-300 ease-in-out">
-      <div className="bg-white dark:bg-gray-800 rounded-xl p-8 w-full max-w-3xl shadow-lg transform transition-all duration-500 ease-in-out scale-95 hover:scale-100">
+      <div className="bg-white dark:bg-gray-800 rounded-xl p-8 w-full max-w-3xl shadow-lg transform transition-all duration-500 ease-in-out ">
         <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-6">College Details</h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
