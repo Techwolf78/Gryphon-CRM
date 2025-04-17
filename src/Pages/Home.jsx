@@ -76,12 +76,12 @@ const Home = () => {
           <p className="text-3xl font-bold text-[#008370] mt-2">₹4.2L</p>
         </div>
         <div className="bg-white rounded-lg shadow-lg p-6 text-center">
-          <h2 className="text-lg font-semibold text-gray-700">Students Placed</h2>
-          <p className="text-3xl font-bold text-[#008370] mt-2">532</p>
+          <h2 className="text-lg font-semibold text-gray-700">Total Students</h2>
+          <p className="text-3xl font-bold text-[#008370] mt-2">6,000</p>
         </div>
         <div className="bg-white rounded-lg shadow-lg p-6 text-center">
-          <h2 className="text-lg font-semibold text-gray-700">Active Users</h2>
-          <p className="text-3xl font-bold text-[#008370] mt-2">87</p>
+          <h2 className="text-lg font-semibold text-gray-700">Students Placed</h2>
+          <p className="text-3xl font-bold text-[#008370] mt-2">2000</p>
         </div>
       </div>
 
