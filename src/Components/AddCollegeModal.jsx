@@ -27,7 +27,7 @@ export default function AddBusinessModal({ isOpen, onClose, board = "sales" }) {
 
   const defaultStatus = {
     sales: "COLD",
-    learning_and_development: "BEGINNER",
+    learning_and_development: "PLANNING", // updated default
     placement: "APPLIED",
   }[board];
 

@@ -1,5 +1,5 @@
-import { useState, useEffect, useMemo } from "react";
-import { Column } from "../Sales/Column"; // Assuming you have the Column component for each task column
+import { useState, useEffect, useMemo, useRef } from "react";
+import { Column } from "../Sales/Column";
 import { DndContext } from "@dnd-kit/core";
 import { db, ref, get, update, onValue } from "../../firebase";
 import AddBusinessModal from "../AddCollegeModal";
@@ -15,29 +15,30 @@ const COLUMNS = [
 export default function PlacementKanban() {
   const [tasks, setTasks] = useState([]);
   const [showModal, setShowModal] = useState(false);
-    const [selectedTask, setSelectedTask] = useState(null); // 👈 For detail modal
+  const [selectedTask, setSelectedTask] = useState(null); // 👈 For detail modal
   const [hoveredColumn, setHoveredColumn] = useState(null);
+  const recentlyTransferred = useRef(new Set());
+
+  // Fetch tasks from the Firebase Realtime Database
+  const fetchTasks = async () => {
+    const tasksRef = ref(db, "placement");
+    const snapshot = await get(tasksRef);
+
+    if (snapshot.exists()) {
+      const tasksData = snapshot.val();
+      const formattedTasks = Object.keys(tasksData).map((taskId) => ({
+        id: taskId,
+        ...tasksData[taskId],
+      }));
+      setTasks(formattedTasks);
+    } else {
+      console.log("No tasks found in Firebase");
+    }
+  };
 
   useEffect(() => {
-    const fetchTasks = async () => {
-      const tasksRef = ref(db, "placement");
-      const snapshot = await get(tasksRef);
-
-      if (snapshot.exists()) {
-        const tasksData = snapshot.val();
-        const formattedTasks = Object.keys(tasksData).map((taskId) => ({
-          id: taskId,
-          ...tasksData[taskId],
-        }));
-        setTasks(formattedTasks);
-      } else {
-        console.log("No tasks found in Firebase");
-      }
-    };
-
     fetchTasks();
 
-    // Real-time listener for task updates
     const tasksRef = ref(db, "placement");
     const unsubscribe = onValue(tasksRef, (snapshot) => {
       if (snapshot.exists()) {
@@ -50,44 +51,33 @@ export default function PlacementKanban() {
       }
     });
 
-    // Cleanup listener on component unmount
     return () => unsubscribe();
   }, []);
 
   const handleDragOver = (event) => {
     const { over } = event;
-    if (over) {
-      setHoveredColumn(over.id);
-    } else {
-      setHoveredColumn(null);
-    }
+    setHoveredColumn(over?.id || null);
   };
 
   // Handle the drag-and-drop event and update Realtime Database
-  function handleDragEnd(event) {
+  const handleDragEnd = (event) => {
     const { active, over } = event;
-
-    // Clear hovered column state after drag ends
     setHoveredColumn(null);
-
-    // If dropped outside any column, do nothing
     if (!over) return;
 
     const taskId = active.id;
     const newStatus = over.id;
 
-    // Only update if the status actually changed
     setTasks((prevTasks) => {
       const updatedTasks = prevTasks.map((task) =>
         task.id === taskId ? { ...task, status: newStatus } : task
       );
 
-      // Update in database
       updateTaskStatusInDatabase(taskId, newStatus);
 
       return updatedTasks;
     });
-  }
+  };
 
   // Update task status in Realtime Database
   const updateTaskStatusInDatabase = (taskId, newStatus) => {
@@ -105,8 +95,31 @@ export default function PlacementKanban() {
     }, {});
   }, [tasks]);
 
+  // Handle task click to open modal with task details
   const onTaskClick = (task) => {
     setSelectedTask(task);
+  };
+
+  // Handle task refresh in modal
+  const refreshTaskInModal = async (task) => {
+    if (!task?.category || !task?.projectId) return;
+
+    const categoryRef = ref(db, task.category);
+    const snapshot = await get(categoryRef);
+    const data = snapshot.val();
+
+    if (!data || !Array.isArray(data)) {
+      alert("Invalid data structure in database.");
+      return;
+    }
+
+    const updated = data.find((item) => item.projectId === task.projectId);
+    if (!updated) {
+      alert("Task not found.");
+      return;
+    }
+
+    setSelectedTask({ ...updated, category: task.category });
   };
 
   return (
@@ -127,8 +140,14 @@ export default function PlacementKanban() {
 
       <AddBusinessModal isOpen={showModal} onClose={() => setShowModal(false)} board="placement" />
 
-      {/* Detail Modal */}
-      <TaskDetailModal isOpen={!!selectedTask} onClose={() => setSelectedTask(null)} task={selectedTask} />
+      {/* Task Detail Modal */}
+      <TaskDetailModal
+        isOpen={!!selectedTask}
+        onClose={() => setSelectedTask(null)}
+        task={selectedTask}
+        refreshTasks={fetchTasks}
+        onRefreshTask={refreshTaskInModal}
+      />
 
       <div className="flex gap-8">
         <DndContext onDragEnd={handleDragEnd} onDragOver={handleDragOver}>

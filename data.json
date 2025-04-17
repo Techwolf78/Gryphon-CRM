@@ -1,6 +1,7 @@
 {
   "learning_and_development": [
     {
+      "category": "learning_and_development",
       "status": "COMPLETED",
       "title": "University of Mumbai",
       "projectId": "UMU101",
@@ -12,7 +13,8 @@
       "total_contract_value": 500000
     },
     {
-      "status": "INTERMEDIATE",
+      "category": "learning_and_development",
+      "status": "PHASE_1",
       "title": "Delhi University",
       "projectId": "DU102",
       "address": "Address of Delhi University",
@@ -23,7 +25,8 @@
       "total_contract_value": 720000
     },
     {
-      "status": "ADVANCED",
+      "category": "learning_and_development",
+      "status": "PHASE_2",
       "title": "Manipal University",
       "projectId": "MU103",
       "address": "Address of Manipal University",
@@ -34,7 +37,8 @@
       "total_contract_value": 1050000
     },
     {
-      "status": "CLOSED",
+      "category": "learning_and_development",
+      "status": "PHASE_3",
       "title": "Amity University",
       "projectId": "AU104",
       "address": "Address of Amity University",
@@ -45,7 +49,8 @@
       "total_contract_value": 270000
     },
     {
-      "status": "BEGINNER",
+      "category": "learning_and_development",
+      "status": "PLANNING",
       "title": "Jadavpur University",
       "projectId": "JU105",
       "address": "Address of Jadavpur University",
@@ -54,175 +59,11 @@
       "std_count": 400,
       "cost_per_std": 1100,
       "total_contract_value": 440000
-    },
-    {
-      "status": "COMPLETED",
-      "title": "Banaras Hindu University",
-      "projectId": "BHU106",
-      "address": "Address of Banaras Hindu University",
-      "poc_name": "Eve Black",
-      "phone_no": "+91 7788996655",
-      "std_count": 550,
-      "cost_per_std": 1300,
-      "total_contract_value": 715000
-    },
-    {
-      "status": "INTERMEDIATE",
-      "title": "Jawaharlal Nehru University",
-      "projectId": "JNU107",
-      "address": "Address of Jawaharlal Nehru University",
-      "poc_name": "George Grey",
-      "phone_no": "+91 8899001122",
-      "std_count": 450,
-      "cost_per_std": 1400,
-      "total_contract_value": 630000
-    },
-    {
-      "status": "ADVANCED",
-      "title": "Indian Institute of Technology Bombay",
-      "projectId": "IITB108",
-      "address": "Address of IIT Bombay",
-      "poc_name": "Henry Adams",
-      "phone_no": "+91 9900112233",
-      "std_count": 800,
-      "cost_per_std": 2000,
-      "total_contract_value": 1600000
-    },
-    {
-      "status": "CLOSED",
-      "title": "University of Delhi",
-      "projectId": "UD109",
-      "address": "Address of University of Delhi",
-      "poc_name": "Isla Brown",
-      "phone_no": "+91 1122334455",
-      "std_count": 350,
-      "cost_per_std": 950,
-      "total_contract_value": 332500
-    },
-    {
-      "status": "BEGINNER",
-      "title": "University of Calcutta",
-      "projectId": "UC110",
-      "address": "Address of University of Calcutta",
-      "poc_name": "Jack Silver",
-      "phone_no": "+91 5566778899",
-      "std_count": 250,
-      "cost_per_std": 800,
-      "total_contract_value": 200000
-    },
-    {
-      "status": "COMPLETED",
-      "title": "Pune University",
-      "projectId": "PU111",
-      "address": "Address of Pune University",
-      "poc_name": "Laura Gold",
-      "phone_no": "+91 2233445566",
-      "std_count": 600,
-      "cost_per_std": 1100,
-      "total_contract_value": 660000
-    },
-    {
-      "status": "INTERMEDIATE",
-      "title": "University of Madras",
-      "projectId": "UM112",
-      "address": "Address of University of Madras",
-      "poc_name": "Michael Green",
-      "phone_no": "+91 4455667788",
-      "std_count": 500,
-      "cost_per_std": 1050,
-      "total_contract_value": 525000
-    },
-    {
-      "status": "ADVANCED",
-      "title": "Bangalore University",
-      "projectId": "BU113",
-      "address": "Address of Bangalore University",
-      "poc_name": "Nina White",
-      "phone_no": "+91 6677889900",
-      "std_count": 700,
-      "cost_per_std": 1600,
-      "total_contract_value": 1120000
-    },
-    {
-      "status": "CLOSED",
-      "title": "University of Kerala",
-      "projectId": "UK114",
-      "address": "Address of University of Kerala",
-      "poc_name": "Oscar Blue",
-      "phone_no": "+91 8899001122",
-      "std_count": 350,
-      "cost_per_std": 1000,
-      "total_contract_value": 350000
-    },
-    {
-      "status": "BEGINNER",
-      "title": "Osmania University",
-      "projectId": "OU115",
-      "address": "Address of Osmania University",
-      "poc_name": "Peter Black",
-      "phone_no": "+91 9988776655",
-      "std_count": 400,
-      "cost_per_std": 1100,
-      "total_contract_value": 440000
-    },
-    {
-      "status": "COMPLETED",
-      "title": "University of Hyderabad",
-      "projectId": "UH116",
-      "address": "Address of University of Hyderabad",
-      "poc_name": "Quincy Stone",
-      "phone_no": "+91 2233445566",
-      "std_count": 600,
-      "cost_per_std": 1300,
-      "total_contract_value": 780000
-    },
-    {
-      "status": "INTERMEDIATE",
-      "title": "University of Rajasthan",
-      "projectId": "UR117",
-      "address": "Address of University of Rajasthan",
-      "poc_name": "Rachel Yellow",
-      "phone_no": "+91 5566778899",
-      "std_count": 500,
-      "cost_per_std": 1250,
-      "total_contract_value": 625000
-    },
-    {
-      "status": "ADVANCED",
-      "title": "University of Pune",
-      "projectId": "UP118",
-      "address": "Address of University of Pune",
-      "poc_name": "Steven White",
-      "phone_no": "+91 1122334455",
-      "std_count": 800,
-      "cost_per_std": 1400,
-      "total_contract_value": 1120000
-    },
-    {
-      "status": "CLOSED",
-      "title": "Vishwakarma Institute of Technology",
-      "projectId": "VIT119",
-      "address": "Address of Vishwakarma Institute of Technology",
-      "poc_name": "Tom Black",
-      "phone_no": "+91 6677889900",
-      "std_count": 300,
-      "cost_per_std": 950,
-      "total_contract_value": 285000
-    },
-    {
-      "status": "BEGINNER",
-      "title": "Dr. Babasaheb Ambedkar Marathwada University",
-      "projectId": "BAMU120",
-      "address": "Address of Dr. Babasaheb Ambedkar Marathwada University",
-      "poc_name": "Uma Green",
-      "phone_no": "+91 9988776655",
-      "std_count": 350,
-      "cost_per_std": 1050,
-      "total_contract_value": 367500
     }
   ],
   "placement": [
     {
+      "category": "placement",
       "status": "APPLIED",
       "title": "Banaras Hindu University",
       "projectId": "BHU201",
@@ -234,6 +75,7 @@
       "total_contract_value": 300000
     },
     {
+      "category": "placement",
       "status": "INTERVIEWED",
       "title": "VIT University",
       "projectId": "VIT202",
@@ -245,6 +87,7 @@
       "total_contract_value": 234000
     },
     {
+      "category": "placement",
       "status": "PLACED",
       "title": "SRM University",
       "projectId": "SRM203",
@@ -256,6 +99,7 @@
       "total_contract_value": 400000
     },
     {
+      "category": "placement",
       "status": "PLACED",
       "title": "Thapar University",
       "projectId": "TU204",
@@ -267,6 +111,7 @@
       "total_contract_value": 319000
     },
     {
+      "category": "placement",
       "status": "OFFERED",
       "title": "College of Engineering Pune",
       "projectId": "COEP205",
@@ -276,175 +121,11 @@
       "std_count": 200,
       "cost_per_std": 1400,
       "total_contract_value": 280000
-    },
-    {
-      "status": "APPLIED",
-      "title": "Indian Institute of Technology Delhi",
-      "projectId": "IITD206",
-      "address": "Address of IIT Delhi",
-      "poc_name": "George Grey",
-      "phone_no": "+91 8899001122",
-      "std_count": 230,
-      "cost_per_std": 1700,
-      "total_contract_value": 391000
-    },
-    {
-      "status": "INTERVIEWED",
-      "title": "University of Mumbai",
-      "projectId": "UM207",
-      "address": "Address of University of Mumbai",
-      "poc_name": "Henry Adams",
-      "phone_no": "+91 9900112233",
-      "std_count": 210,
-      "cost_per_std": 1500,
-      "total_contract_value": 315000
-    },
-    {
-      "status": "PLACED",
-      "title": "Jadavpur University",
-      "projectId": "JU208",
-      "address": "Address of Jadavpur University",
-      "poc_name": "Isla Brown",
-      "phone_no": "+91 1122334455",
-      "std_count": 220,
-      "cost_per_std": 1600,
-      "total_contract_value": 352000
-    },
-    {
-      "status": "PLACED",
-      "title": "Manipal University",
-      "projectId": "MU209",
-      "address": "Address of Manipal University",
-      "poc_name": "Jack Silver",
-      "phone_no": "+91 5566778899",
-      "std_count": 250,
-      "cost_per_std": 1500,
-      "total_contract_value": 375000
-    },
-    {
-      "status": "OFFERED",
-      "title": "Amity University",
-      "projectId": "AU210",
-      "address": "Address of Amity University",
-      "poc_name": "Laura Gold",
-      "phone_no": "+91 2233445566",
-      "std_count": 200,
-      "cost_per_std": 1400,
-      "total_contract_value": 280000
-    },
-    {
-      "status": "APPLIED",
-      "title": "MIT World Peace University",
-      "projectId": "MITWPU211",
-      "address": "Address of MIT World Peace University",
-      "poc_name": "Michael Green",
-      "phone_no": "+91 4455667788",
-      "std_count": 180,
-      "cost_per_std": 1200,
-      "total_contract_value": 216000
-    },
-    {
-      "status": "INTERVIEWED",
-      "title": "University of Madras",
-      "projectId": "UM212",
-      "address": "Address of University of Madras",
-      "poc_name": "Nina White",
-      "phone_no": "+91 6677889900",
-      "std_count": 200,
-      "cost_per_std": 1400,
-      "total_contract_value": 280000
-    },
-    {
-      "status": "PLACED",
-      "title": "Jamia Millia Islamia",
-      "projectId": "JMI213",
-      "address": "Address of Jamia Millia Islamia",
-      "poc_name": "Oscar Blue",
-      "phone_no": "+91 8899001122",
-      "std_count": 230,
-      "cost_per_std": 1300,
-      "total_contract_value": 299000
-    },
-    {
-      "status": "PLACED",
-      "title": "Bangalore University",
-      "projectId": "BU214",
-      "address": "Address of Bangalore University",
-      "poc_name": "Peter Black",
-      "phone_no": "+91 9988776655",
-      "std_count": 250,
-      "cost_per_std": 1550,
-      "total_contract_value": 387500
-    },
-    {
-      "status": "OFFERED",
-      "title": "Shiv Nadar University",
-      "projectId": "SNU215",
-      "address": "Address of Shiv Nadar University",
-      "poc_name": "Quincy Stone",
-      "phone_no": "+91 2233445566",
-      "std_count": 200,
-      "cost_per_std": 1450,
-      "total_contract_value": 290000
-    },
-    {
-      "status": "APPLIED",
-      "title": "Pune University",
-      "projectId": "PU216",
-      "address": "Address of Pune University",
-      "poc_name": "Rachel Yellow",
-      "phone_no": "+91 5566778899",
-      "std_count": 210,
-      "cost_per_std": 1300,
-      "total_contract_value": 273000
-    },
-    {
-      "status": "INTERVIEWED",
-      "title": "Symbiosis International University",
-      "projectId": "SIU217",
-      "address": "Address of Symbiosis International University",
-      "poc_name": "Steven White",
-      "phone_no": "+91 1122334455",
-      "std_count": 190,
-      "cost_per_std": 1200,
-      "total_contract_value": 228000
-    },
-    {
-      "status": "PLACED",
-      "title": "University of Delhi",
-      "projectId": "UD218",
-      "address": "Address of University of Delhi",
-      "poc_name": "Tom Black",
-      "phone_no": "+91 6677889900",
-      "std_count": 230,
-      "cost_per_std": 1300,
-      "total_contract_value": 299000
-    },
-    {
-      "status": "PLACED",
-      "title": "Guru Nanak Dev University",
-      "projectId": "GNDU219",
-      "address": "Address of Guru Nanak Dev University",
-      "poc_name": "Uma Green",
-      "phone_no": "+91 9988776655",
-      "std_count": 210,
-      "cost_per_std": 1250,
-      "total_contract_value": 262500
-    },
-    {
-      "status": "OFFERED",
-      "title": "Chandigarh University",
-      "projectId": "CU220",
-      "address": "Address of Chandigarh University",
-      "poc_name": "Victor Grey",
-      "phone_no": "+91 2233445566",
-      "std_count": 220,
-      "cost_per_std": 1400,
-      "total_contract_value": 308000
     }
   ],
   "sales": [
     {
+      "category": "sales",
       "status": "COLD",
       "title": "Fergusson College",
       "projectId": "FC301",
@@ -456,6 +137,7 @@
       "total_contract_value": 150000
     },
     {
+      "category": "sales",
       "status": "CLOSED",
       "title": "Symbiosis International University",
       "projectId": "SIU302",
@@ -467,6 +149,7 @@
       "total_contract_value": 240000
     },
     {
+      "category": "sales",
       "status": "WARM",
       "title": "MIT World Peace University",
       "projectId": "MITWPU303",
@@ -478,6 +161,7 @@
       "total_contract_value": 198000
     },
     {
+      "category": "sales",
       "status": "ON_CALL",
       "title": "Bharati Vidyapeeth University",
       "projectId": "BVU304",
@@ -489,6 +173,7 @@
       "total_contract_value": 178500
     },
     {
+      "category": "sales",
       "status": "COLD",
       "title": "Pune University",
       "projectId": "PU305",
@@ -498,171 +183,6 @@
       "std_count": 160,
       "cost_per_std": 950,
       "total_contract_value": 152000
-    },
-    {
-      "status": "CLOSED",
-      "title": "Delhi University",
-      "projectId": "DU306",
-      "address": "Address of Delhi University",
-      "poc_name": "Frank Green",
-      "phone_no": "+91 7890123456",
-      "std_count": 200,
-      "cost_per_std": 1200,
-      "total_contract_value": 240000
-    },
-    {
-      "status": "WARM",
-      "title": "Manipal University",
-      "projectId": "MU307",
-      "address": "Address of Manipal University",
-      "poc_name": "Grace Black",
-      "phone_no": "+91 8901234567",
-      "std_count": 220,
-      "cost_per_std": 1250,
-      "total_contract_value": 275000
-    },
-    {
-      "status": "ON_CALL",
-      "title": "VIT University",
-      "projectId": "VIT308",
-      "address": "Address of VIT University",
-      "poc_name": "Hank Blue",
-      "phone_no": "+91 9012345678",
-      "std_count": 190,
-      "cost_per_std": 1150,
-      "total_contract_value": 218500
-    },
-    {
-      "status": "COLD",
-      "title": "University of Mumbai",
-      "projectId": "UM309",
-      "address": "Address of University of Mumbai",
-      "poc_name": "Ivy White",
-      "phone_no": "+91 2345678901",
-      "std_count": 150,
-      "cost_per_std": 1000,
-      "total_contract_value": 150000
-    },
-    {
-      "status": "CLOSED",
-      "title": "Indian Institute of Technology Bombay",
-      "projectId": "IITB310",
-      "address": "Address of IIT Bombay",
-      "poc_name": "Jack Brown",
-      "phone_no": "+91 3456789012",
-      "std_count": 200,
-      "cost_per_std": 1300,
-      "total_contract_value": 260000
-    },
-    {
-      "status": "WARM",
-      "title": "Amity University",
-      "projectId": "AU311",
-      "address": "Address of Amity University",
-      "poc_name": "Kathy Grey",
-      "phone_no": "+91 4567890123",
-      "std_count": 210,
-      "cost_per_std": 1250,
-      "total_contract_value": 262500
-    },
-    {
-      "status": "ON_CALL",
-      "title": "Jawaharlal Nehru University",
-      "projectId": "JNU312",
-      "address": "Address of Jawaharlal Nehru University",
-      "poc_name": "Leo Green",
-      "phone_no": "+91 5678901234",
-      "std_count": 180,
-      "cost_per_std": 1100,
-      "total_contract_value": 198000
-    },
-    {
-      "status": "COLD",
-      "title": "Banaras Hindu University",
-      "projectId": "BHU313",
-      "address": "Address of Banaras Hindu University",
-      "poc_name": "Mia Brown",
-      "phone_no": "+91 6789012345",
-      "std_count": 160,
-      "cost_per_std": 950,
-      "total_contract_value": 152000
-    },
-    {
-      "status": "CLOSED",
-      "title": "University of Hyderabad",
-      "projectId": "UH314",
-      "address": "Address of University of Hyderabad",
-      "poc_name": "Nina Blue",
-      "phone_no": "+91 7890123456",
-      "std_count": 190,
-      "cost_per_std": 1000,
-      "total_contract_value": 190000
-    },
-    {
-      "status": "WARM",
-      "title": "Shivaji University",
-      "projectId": "SU315",
-      "address": "Address of Shivaji University",
-      "poc_name": "Olivia Black",
-      "phone_no": "+91 8901234567",
-      "std_count": 180,
-      "cost_per_std": 1050,
-      "total_contract_value": 189000
-    },
-    {
-      "status": "ON_CALL",
-      "title": "Jadavpur University",
-      "projectId": "JU316",
-      "address": "Address of Jadavpur University",
-      "poc_name": "Paul Green",
-      "phone_no": "+91 9012345678",
-      "std_count": 170,
-      "cost_per_std": 1150,
-      "total_contract_value": 195500
-    },
-    {
-      "status": "COLD",
-      "title": "University of Calcutta",
-      "projectId": "UC317",
-      "address": "Address of University of Calcutta",
-      "poc_name": "Quincy White",
-      "phone_no": "+91 2345678901",
-      "std_count": 150,
-      "cost_per_std": 1000,
-      "total_contract_value": 150000
-    },
-    {
-      "status": "CLOSED",
-      "title": "Guru Gobind Singh Indraprastha University",
-      "projectId": "GGSIPU318",
-      "address": "Address of Guru Gobind Singh Indraprastha University",
-      "poc_name": "Rachel Blue",
-      "phone_no": "+91 3456789012",
-      "std_count": 200,
-      "cost_per_std": 1200,
-      "total_contract_value": 240000
-    },
-    {
-      "status": "WARM",
-      "title": "Rajiv Gandhi University",
-      "projectId": "RGU319",
-      "address": "Address of Rajiv Gandhi University",
-      "poc_name": "Sophie Brown",
-      "phone_no": "+91 4567890123",
-      "std_count": 220,
-      "cost_per_std": 1300,
-      "total_contract_value": 286000
-    },
-    {
-      "status": "ON_CALL",
-      "title": "University of Rajasthan",
-      "projectId": "UR320",
-      "address": "Address of University of Rajasthan",
-      "poc_name": "Tom Black",
-      "phone_no": "+91 5678901234",
-      "std_count": 180,
-      "cost_per_std": 1200,
-      "total_contract_value": 216000
     }
   ]
 }

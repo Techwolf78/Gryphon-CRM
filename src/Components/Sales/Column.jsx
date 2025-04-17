@@ -2,21 +2,26 @@ import { useDroppable } from '@dnd-kit/core';
 import { TaskCard } from './TaskCard';
 
 const COLUMN_COLORS = {
-  COLD: "#FC807A", 
-  WARM: "#365DFF", 
-  ON_CALL: "#FFBF37", 
-  CLOSED: "#0EBD94", 
+  // Sales
+  COLD: "#FC807A",
+  WARM: "#365DFF",
+  ON_CALL: "#FFBF37",
+  CLOSED: "#0EBD94",
 
-  APPLIED: "#FC807A",      
-  INTERVIEWED: "#365DFF",   
-  OFFERED: "#FFBF37",     
-  PLACED: "#0EBD94",    
+  // Placement
+  APPLIED: "#FC807A",
+  INTERVIEWED: "#365DFF",
+  OFFERED: "#FFBF37",
+  PLACED: "#0EBD94",
 
-  BEGINNER: "#FC807A",     
-  INTERMEDIATE: "#365DFF",  
-  ADVANCED: "#FFBF37",     
-  COMPLETED: "#0EBD94", 
+  // NEW L&D
+  PLANNING: "#FC807A",
+  PHASE_1: "#365DFF",
+  PHASE_2: "#FFBF37",
+  PHASE_3: "#FFA500",     // Slight variation for visual distinction
+  COMPLETED: "#0EBD94",   // Shared with others
 };
+
 
 export function Column({ column, tasks, isHovered, brandColor = "#008370", onTaskClick }) {
   const { setNodeRef } = useDroppable({ id: column.id });

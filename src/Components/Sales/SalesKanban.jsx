@@ -3,7 +3,7 @@ import { Column } from "../Sales/Column";
 import { DndContext } from "@dnd-kit/core";
 import { db, ref, get, update, onValue, push } from "../../firebase";
 import AddBusinessModal from "../AddCollegeModal";
-import TaskDetailModal from "../Sales/TaskDetailModal"; // 👈 Import new modal
+import TaskDetailModal from "../Sales/TaskDetailModal"; // 👈 Updated modal
 
 const COLUMNS = [
   { id: "COLD", title: "Cold" },
@@ -15,24 +15,25 @@ const COLUMNS = [
 export default function SalesKanban() {
   const [tasks, setTasks] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [selectedTask, setSelectedTask] = useState(null); // 👈 For detail modal
+  const [selectedTask, setSelectedTask] = useState(null);
   const recentlyTransferred = useRef(new Set());
   const [hoveredColumn, setHoveredColumn] = useState(null);
 
-  useEffect(() => {
-    const fetchTasks = async () => {
-      const tasksRef = ref(db, "sales");
-      const snapshot = await get(tasksRef);
-      if (snapshot.exists()) {
-        const tasksData = snapshot.val();
-        const formattedTasks = Object.keys(tasksData).map((taskId) => ({
-          id: taskId,
-          ...tasksData[taskId],
-        }));
-        setTasks(formattedTasks);
-      }
-    };
+  const fetchTasks = async () => {
+    const tasksRef = ref(db, "sales");
+    const snapshot = await get(tasksRef);
+    if (snapshot.exists()) {
+      const tasksData = snapshot.val();
+      const formattedTasks = Object.keys(tasksData).map((taskId) => ({
+        id: taskId,
+        ...tasksData[taskId],
+        category: "sales", // Required for refresh
+      }));
+      setTasks(formattedTasks);
+    }
+  };
 
+  useEffect(() => {
     fetchTasks();
 
     const tasksRef = ref(db, "sales");
@@ -42,6 +43,7 @@ export default function SalesKanban() {
         const formattedTasks = Object.keys(tasksData).map((taskId) => ({
           id: taskId,
           ...tasksData[taskId],
+          category: "sales",
         }));
         setTasks(formattedTasks);
       }
@@ -49,6 +51,27 @@ export default function SalesKanban() {
 
     return () => unsubscribe();
   }, []);
+
+  const refreshTaskInModal = async (task) => {
+    if (!task?.category || !task?.projectId) return;
+
+    const categoryRef = ref(db, task.category);
+    const snapshot = await get(categoryRef);
+    const data = snapshot.val();
+
+    if (!data || !Array.isArray(data)) {
+      alert("Invalid data structure in database.");
+      return;
+    }
+
+    const updated = data.find((item) => item.projectId === task.projectId);
+    if (!updated) {
+      alert("Task not found.");
+      return;
+    }
+
+    setSelectedTask({ ...updated, category: task.category });
+  };
 
   const handleDragOver = (event) => {
     const { over } = event;
@@ -101,10 +124,6 @@ export default function SalesKanban() {
     }, {});
   }, [tasks]);
 
-  const onTaskClick = (task) => {
-    setSelectedTask(task);
-  };
-
   return (
     <div className="p-6 bg-white min-h-screen">
       <div className="text-3xl font-bold text-[#000000] mb-6">
@@ -122,8 +141,13 @@ export default function SalesKanban() {
 
       <AddBusinessModal isOpen={showModal} onClose={() => setShowModal(false)} board="sales" />
 
-      {/* Detail Modal */}
-      <TaskDetailModal isOpen={!!selectedTask} onClose={() => setSelectedTask(null)} task={selectedTask} />
+      <TaskDetailModal
+        isOpen={!!selectedTask}
+        onClose={() => setSelectedTask(null)}
+        task={selectedTask}
+        refreshTasks={fetchTasks}
+        onRefreshTask={refreshTaskInModal}
+      />
 
       <DndContext onDragEnd={handleDragEnd} onDragOver={handleDragOver}>
         <div className="flex gap-6 overflow-x-auto pb-4">
@@ -134,7 +158,7 @@ export default function SalesKanban() {
               tasks={tasksByColumn[column.id]}
               isHovered={hoveredColumn === column.id}
               brandColor="#008370"
-              onTaskClick={onTaskClick} // 👈 Pass click handler
+              onTaskClick={(task) => setSelectedTask(task)}
             />
           ))}
         </div>
