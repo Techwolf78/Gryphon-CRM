@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { db, ref, get, push, update } from "../firebase";
+import { db, ref, get, push, update } from "../../firebase";
 
 const normalize = (str) => str.replace(/\s+/g, "").toLowerCase();
 
@@ -131,23 +131,54 @@ export default function AddBusinessModal({ isOpen, onClose, board = "sales" }) {
         <h2 className="text-2xl font-bold text-gray-800 mb-6">Add New Leads</h2>
 
         {/* Business Name */}
-        <div className="mb-4">
+        <div className="mb-4 relative">
           <label className="block text-sm font-semibold text-gray-600 mb-2">
             Business Name
           </label>
-          <input
-            type="text"
-            value={businessName}
-            onChange={(e) => setBusinessName(e.target.value)}
-            placeholder="e.g. Acme Corp"
-            className={`w-full px-4 py-2 border text-gray-800 rounded-lg outline-none focus:ring-2 ${
-              nameExists
-                ? "border-red-500 ring-red-100"
-                : "border-gray-300 ring-transparent focus:ring-[#008370]"
-            }`}
-          />
-          {nameExists && (
-            <p className="text-sm text-red-600">
+
+          <div className="relative">
+            <input
+              type="text"
+              value={businessName}
+              onChange={(e) => setBusinessName(e.target.value)}
+              placeholder="e.g. Acme Corp"
+              className={`w-full px-4 py-2 pr-10 border text-gray-800 rounded-lg outline-none focus:ring-2 ${
+                nameExists
+                  ? "border-red-500 ring-red-100"
+                  : "border-gray-300 ring-transparent focus:ring-[#008370]"
+              }`}
+            />
+
+            {/* Spinner inside input */}
+            {checking && (
+              <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                <svg
+                  className="animate-spin h-4 w-4 text-gray-400"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                  />
+                </svg>
+              </div>
+            )}
+          </div>
+
+          {/* Error text below */}
+          {nameExists && !checking && (
+            <p className="text-sm text-red-600 mt-1">
               Business name already exists.
             </p>
           )}
@@ -264,21 +295,44 @@ export default function AddBusinessModal({ isOpen, onClose, board = "sales" }) {
         <div className="flex justify-between items-center mt-6">
           <button
             onClick={handleAddBusiness}
-            disabled={!businessName.trim() || nameExists}
-            className={`px-5 py-2.5 rounded-lg text-white font-medium transition ${
-              !businessName.trim() || nameExists
+            disabled={!businessName.trim() || nameExists || checking}
+            className={`px-5 py-2.5 rounded-lg text-white font-medium transition flex items-center justify-center gap-2 ${
+              !businessName.trim() || nameExists || checking
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-[#008370] hover:bg-[#006e56]"
             }`}
           >
-            Add Business
+            {checking && (
+              <svg
+                className="animate-spin h-4 w-4 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                />
+              </svg>
+            )}
+            {checking ? "Checking..." : "Add Business"}
           </button>
+
           <button
             onClick={() => {
               resetForm();
               onClose();
             }}
-            className="text-sm text-gray-500 hover:text-gray-700 transition"
+            className="text-sm text-gray-500 rounded-lg hover:text-white  hover:bg-red-600 px-4 py-2 transition"
           >
             Cancel
           </button>

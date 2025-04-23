@@ -1,9 +1,9 @@
 import { useState, useEffect, useMemo, useRef } from "react";
-import { Column } from "../Sales/Column";
+import { Column } from "../Common/Column";
 import { DndContext } from "@dnd-kit/core";
 import { db, ref, get, update, onValue, push } from "../../firebase";
-import AddBusinessModal from "../AddCollegeModal";
-import TaskDetailModal from "../Sales/TaskDetailModal"; // 👈 Updated modal
+import AddBusinessModal from "../Common/AddCollegeModal";
+import TaskDetailModal from "../Common/TaskDetailModal"; // 👈 Updated modal
 
 const COLUMNS = [
   { id: "COLD", title: "Cold" },
@@ -82,40 +82,47 @@ export default function SalesKanban() {
     const { active, over } = event;
     setHoveredColumn(null);
     if (!over) return;
-
+  
     const taskId = active.id;
     const newStatus = over.id;
-
+  
     setTasks((prevTasks) => {
       const updatedTasks = prevTasks.map((task) =>
         task.id === taskId ? { ...task, status: newStatus } : task
       );
-
+  
       updateTaskStatusInDatabase(taskId, newStatus);
-      if (newStatus === "CLOSED") createTaskInPlacement(taskId);
-
+  
+      // ✅ NEW: If dropped in "CLOSED", push to L&D board
+      if (newStatus === "CLOSED") createTaskInLearningAndDevelopment(taskId);
+  
       return updatedTasks;
     });
   };
+  
 
   const updateTaskStatusInDatabase = (taskId, newStatus) => {
     const taskRef = ref(db, `sales/${taskId}`);
     update(taskRef, { status: newStatus });
   };
 
-  const createTaskInPlacement = async (taskId) => {
+  const createTaskInLearningAndDevelopment = async (taskId) => {
     const task = tasks.find((t) => t.id === taskId);
     if (!task || recentlyTransferred.current.has(task.projectId)) return;
-
+  
     recentlyTransferred.current.add(task.projectId);
+  
     const taskRef = ref(db, "learning_and_development");
     const newTaskRef = push(taskRef);
+  
     await update(newTaskRef, {
-      title: task.title,
-      status: "BEGINNER",
-      projectId: task.projectId,
+      ...task, // 👈 Push the full object
+      status: "PLANNING", // 👈 Override status to first column
+      category: "learning_and_development", // 👈 Ensure category is set
     });
   };
+  
+  
 
   const tasksByColumn = useMemo(() => {
     return COLUMNS.reduce((acc, column) => {

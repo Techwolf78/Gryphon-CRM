@@ -63,3 +63,5 @@ export function Column({ column, tasks, isHovered, brandColor = "#008370", onTas
     </div>
   );
 }
+
+export default Column;

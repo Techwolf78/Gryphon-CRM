@@ -30,18 +30,28 @@ export default function TaskDetailModal({ isOpen, onClose, task, refreshTasks, o
       const snapshot = await get(categoryRef);
       const data = snapshot.val();
 
-      if (!data || !Array.isArray(data)) {
+      if (!data || typeof data !== 'object') {
         alert("Invalid data structure in database.");
         return;
       }
 
-      const index = data.findIndex((item) => item.projectId === task.projectId);
-      if (index === -1) {
+      const dataEntries = Object.entries(data);
+      const [taskKey, matchedTask] = dataEntries.find(
+        ([, item]) => item.projectId === task.projectId
+      ) || [];
+
+      // Using matchedTask for any necessary logic
+      if (matchedTask) {
+        // You can use matchedTask here for any logic or debugging purposes
+        console.log("Matched Task:", matchedTask); // Example: logging it
+      }
+
+      if (!taskKey) {
         alert("Task not found in the selected category.");
         return;
       }
 
-      const taskRef = ref(db, `${task.category}/${index}`);
+      const taskRef = ref(db, `${task.category}/${taskKey}`);
       await update(taskRef, editedTask);
       if (refreshTasks) await refreshTasks();
       setIsEditing(false);
@@ -87,9 +97,15 @@ export default function TaskDetailModal({ isOpen, onClose, task, refreshTasks, o
           <option value="COLD">COLD</option>
           <option value="WARM">WARM</option>
           <option value="ON_CALL">ON_CALL</option>
+          <option value="PLANNING">PLANNING</option>
+          <option value="PHASE_1">PHASE_1</option>
+          <option value="PHASE_2">PHASE_2</option>
+          <option value="PHASE_3">PHASE_3</option>
+          <option value="COMPLETED">COMPLETED</option>
+          <option value="APPLIED">APPLIED</option>
+          <option value="INTERVIEWED">INTERVIEWED</option>
           <option value="OFFERED">OFFERED</option>
           <option value="PLACED">PLACED</option>
-          <option value="COMPLETED">COMPLETED</option>
         </select>
       ) : (
         <p

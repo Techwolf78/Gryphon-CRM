@@ -1,9 +1,9 @@
 import { useState, useEffect, useMemo, useRef } from "react";
-import { Column } from "../Sales/Column";
+import { Column } from "../Common/Column";
 import { DndContext } from "@dnd-kit/core";
-import { db, ref, get, update, onValue } from "../../firebase";
-import AddBusinessModal from "../AddCollegeModal";
-import TaskDetailModal from "../Sales/TaskDetailModal"; // 👈 Import new modal
+import { db, ref, get, update, onValue, push } from "../../firebase";
+import AddBusinessModal from "../Common/AddCollegeModal";
+import TaskDetailModal from "../Common/TaskDetailModal"; // 👈 Import new modal
 
 const COLUMNS = [
   { id: "APPLIED", title: "Applied" },
@@ -15,11 +15,11 @@ const COLUMNS = [
 export default function PlacementKanban() {
   const [tasks, setTasks] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [selectedTask, setSelectedTask] = useState(null); // 👈 For detail modal
+  const [selectedTask, setSelectedTask] = useState(null);
   const [hoveredColumn, setHoveredColumn] = useState(null);
-  const recentlyTransferred = useRef(new Set());
+  const recentlyTransferred = useRef(new Set()); // ✅ Now actively used
 
-  // Fetch tasks from the Firebase Realtime Database
+  // Fetch tasks from Firebase
   const fetchTasks = async () => {
     const tasksRef = ref(db, "placement");
     const snapshot = await get(tasksRef);
@@ -59,7 +59,6 @@ export default function PlacementKanban() {
     setHoveredColumn(over?.id || null);
   };
 
-  // Handle the drag-and-drop event and update Realtime Database
   const handleDragEnd = (event) => {
     const { active, over } = event;
     setHoveredColumn(null);
@@ -75,11 +74,15 @@ export default function PlacementKanban() {
 
       updateTaskStatusInDatabase(taskId, newStatus);
 
+      // ✅ Create completed placement entry if moved to PLACED
+      if (newStatus === "PLACED") {
+        createTaskInCompletedPlacement(taskId);
+      }
+
       return updatedTasks;
     });
   };
 
-  // Update task status in Realtime Database
   const updateTaskStatusInDatabase = (taskId, newStatus) => {
     const taskRef = ref(db, `placement/${taskId}`);
     update(taskRef, {
@@ -87,7 +90,20 @@ export default function PlacementKanban() {
     });
   };
 
-  // Memoize tasks for each column to optimize performance
+  const createTaskInCompletedPlacement = async (taskId) => {
+    const task = tasks.find((t) => t.id === taskId);
+    if (!task || recentlyTransferred.current.has(task.projectId)) return;
+  
+    recentlyTransferred.current.add(task.projectId);
+  
+    const completedRef = push(ref(db, "completed_placements"));
+    await update(completedRef, {
+      ...task, // ✅ Full record for auditing or reports
+      placedAt: new Date().toISOString(),
+    });
+  };
+  
+
   const tasksByColumn = useMemo(() => {
     return COLUMNS.reduce((acc, column) => {
       acc[column.id] = tasks.filter((task) => task.status === column.id);
@@ -95,12 +111,10 @@ export default function PlacementKanban() {
     }, {});
   }, [tasks]);
 
-  // Handle task click to open modal with task details
   const onTaskClick = (task) => {
     setSelectedTask(task);
   };
 
-  // Handle task refresh in modal
   const refreshTaskInModal = async (task) => {
     if (!task?.category || !task?.projectId) return;
 
@@ -124,7 +138,6 @@ export default function PlacementKanban() {
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
-      {/* Heading */}
       <div className="text-3xl font-semibold text-gray-800 mb-6">
         Placement Kanban Board
       </div>
@@ -140,7 +153,6 @@ export default function PlacementKanban() {
 
       <AddBusinessModal isOpen={showModal} onClose={() => setShowModal(false)} board="placement" />
 
-      {/* Task Detail Modal */}
       <TaskDetailModal
         isOpen={!!selectedTask}
         onClose={() => setSelectedTask(null)}
@@ -157,7 +169,7 @@ export default function PlacementKanban() {
               column={column}
               tasks={tasksByColumn[column.id]}
               isHovered={hoveredColumn === column.id}
-              onTaskClick={onTaskClick} // 👈 Pass click handler
+              onTaskClick={onTaskClick}
             />
           ))}
         </DndContext>

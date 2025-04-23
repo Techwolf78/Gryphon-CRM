@@ -1,9 +1,9 @@
 import { useState, useEffect, useMemo, useRef } from "react";
-import { Column } from "../Sales/Column";
+import { Column } from "../Common/Column";
 import { DndContext } from "@dnd-kit/core";
 import { db, ref, get, update, onValue, push } from "../../firebase";
-import AddBusinessModal from "../AddCollegeModal";
-import TaskDetailModal from "../Sales/TaskDetailModal";
+import AddBusinessModal from "../Common/AddCollegeModal";
+import TaskDetailModal from "../Common/TaskDetailModal";
 
 const COLUMNS = [
   { id: "PLANNING", title: "Planning" },
@@ -77,6 +77,27 @@ export default function LDKanban() {
     });
   };
 
+  const refreshTaskInModal = async (task) => {
+    if (!task?.category || !task?.projectId) return;
+
+    const categoryRef = ref(db, task.category);
+    const snapshot = await get(categoryRef);
+    const data = snapshot.val();
+
+    if (!data || !Array.isArray(data)) {
+      alert("Invalid data structure in database.");
+      return;
+    }
+
+    const updated = data.find((item) => item.projectId === task.projectId);
+    if (!updated) {
+      alert("Task not found.");
+      return;
+    }
+
+    setSelectedTask({ ...updated, category: task.category });
+  };
+
   // Update task status in Firebase
   const updateTaskStatusInDatabase = (taskId, newStatus) => {
     const taskRef = ref(db, `learning_and_development/${taskId}`);
@@ -89,13 +110,14 @@ export default function LDKanban() {
     if (!task || recentlyTransferred.current.has(task.projectId)) return;
 
     recentlyTransferred.current.add(task.projectId);
+
     const taskRef = ref(db, "placement");
     const newTaskRef = push(taskRef);
 
     await update(newTaskRef, {
-      title: task.title,
-      status: "APPLIED",
-      projectId: task.projectId,
+      ...task, // 👈 Full task data
+      status: "APPLIED", // 👈 Reset status to first column
+      category: "placement", // 👈 Ensure category is set
     });
   };
 
@@ -125,12 +147,17 @@ export default function LDKanban() {
         </button>
       </div>
 
-      <AddBusinessModal isOpen={showModal} onClose={() => setShowModal(false)} board="learning_and_development" />
-      <TaskDetailModal 
-        isOpen={!!selectedTask} 
-        onClose={() => setSelectedTask(null)} 
+      <AddBusinessModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        board="learning_and_development"
+      />
+      <TaskDetailModal
+        isOpen={!!selectedTask}
+        onClose={() => setSelectedTask(null)}
         task={selectedTask}
         refreshTasks={fetchTasks} // Pass refreshTasks function to modal
+        onRefreshTask={refreshTaskInModal}
       />
 
       <div className="flex gap-8">
