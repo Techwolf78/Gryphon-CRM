@@ -94,16 +94,32 @@ export default function PlacementKanban() {
     const task = tasks.find((t) => t.id === taskId);
     if (!task || recentlyTransferred.current.has(task.projectId)) return;
   
-    recentlyTransferred.current.add(task.projectId);
+    recentlyTransferred.current.add(task.projectId); // ⛔ no double pushing
   
-    const { id: _, ...taskWithoutId } = task; // 👈 Clean removal
+    const taskRef = ref(db, "completed_placements");
+    const snapshot = await get(taskRef);
+    const data = snapshot.val() || {};
   
-    const completedRef = push(ref(db, "completed_placements"));
+    const alreadyExists = Object.values(data).some(
+      (entry) => entry.projectId === task.projectId
+    );
+  
+    if (alreadyExists) {
+      console.log(`🛑 Task with projectId ${task.projectId} already exists in Completed Placements`);
+      return;
+    }
+  
+    const { id: _, ...taskWithoutId } = task;
+  
+    const completedRef = push(taskRef);
     await update(completedRef, {
       ...taskWithoutId,
       placedAt: new Date().toISOString(),
     });
+  
+    console.log(`✅ Task pushed to Completed Placements`);
   };
+  
   
   
 

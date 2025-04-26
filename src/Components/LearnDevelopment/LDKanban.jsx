@@ -108,19 +108,33 @@ export default function LDKanban() {
     const task = tasks.find((t) => t.id === taskId);
     if (!task || recentlyTransferred.current.has(task.projectId)) return;
   
-    recentlyTransferred.current.add(task.projectId);
+    recentlyTransferred.current.add(task.projectId); // prevent double-push
   
     const taskRef = ref(db, "placement");
-    const newTaskRef = push(taskRef);
+    const snapshot = await get(taskRef);
+    const data = snapshot.val() || {};
   
-    const { id: _, ...taskWithoutId } = task; // 👈 Remove 'id' before pushing
+    const alreadyExists = Object.values(data).some(
+      (entry) => entry.projectId === task.projectId
+    );
+  
+    if (alreadyExists) {
+      console.log(`🛑 Task with projectId ${task.projectId} already exists in Placement`);
+      return;
+    }
+  
+    const newTaskRef = push(taskRef);
+    const { id: _, ...taskWithoutId } = task;
   
     await update(newTaskRef, {
       ...taskWithoutId,
-      status: "APPLIED", // Reset to first column
+      status: "APPLIED",
       category: "placement",
     });
+  
+    console.log(`✅ Task pushed to Placement`);
   };
+  
   
 
   // Handle task click to open Task Detail Modal

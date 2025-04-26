@@ -1,79 +1,76 @@
-import React, { useState, useEffect } from 'react';
-import { useDraggable } from '@dnd-kit/core';
+import React, { useState, useEffect } from "react";
+import { useDraggable } from "@dnd-kit/core"; // Import the draggable hook
 
-export function TaskCard({ task, onClick }) {
+export function TaskCard({ task, isOverlay = false, onClick }) {
   const [clickTimer, setClickTimer] = useState(null);
   const [isHeld, setIsHeld] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
 
+  // Using the useDraggable hook from @dnd-kit to make the task draggable
   const { attributes, listeners, setNodeRef, transform, isDragging: dndIsDragging } = useDraggable({
     id: task.id,
   });
 
-  // Use dndIsDragging from useDraggable hook to check if the task is being dragged
+  // Update the isDragging state based on whether the task is being dragged
   useEffect(() => {
     setIsDragging(dndIsDragging);
   }, [dndIsDragging]);
 
-  // Dynamic styles for dragging
+  // Styles for the task when dragging or being held
   const style = {
-    transform: transform
-      ? `translate(${transform.x}px, ${transform.y}px)`
-      : undefined,
-    transition: 'transform 0.2s ease',
-    opacity: dndIsDragging ? 0.5 : 1,
-    boxShadow: dndIsDragging
-      ? '0 0 0 2px rgba(0, 131, 112, 0.4)'
-      : '0 1px 3px rgba(0,0,0,0.1)',
-    // Increase z-index when dragging to ensure the dragged card is on top
-    zIndex: dndIsDragging ? 1000 : 1, 
+    transform: transform ? `translate(${transform.x}px, ${transform.y}px)` : undefined,
+    transition: "transform 0.2s ease", // Smooth transition for drag movement
+    opacity: dndIsDragging ? 0.5 : 1, // Reduce opacity when dragging
+    zIndex: dndIsDragging ? 1000 : 1, // Ensure the dragged card is on top
+    ...(isOverlay && {
+      boxShadow: "0 0 10px rgba(0,0,0,0.2)", // Add shadow for drag overlay
+      scale: "1.05", // Slightly scale the task during overlay
+    }),
   };
 
+  // Handle mouse down event to detect long presses
   const handleMouseDown = () => {
     const timer = setTimeout(() => {
-      setIsHeld(true);
-    }, 2000); // Hold to drag
-    setClickTimer(timer);
+      setIsHeld(true); // Set isHeld to true after 2 seconds of holding
+    }, 2000);
+    setClickTimer(timer); // Store the timer reference
   };
 
+  // Handle mouse up event to stop holding and trigger the click
   const handleMouseUp = () => {
-    clearTimeout(clickTimer);
-
-    // Prevent opening the modal if the task is being dragged
+    clearTimeout(clickTimer); // Clear the timer if mouse up happens before hold time
     if (!isHeld && !isDragging) {
-      onClick(task); // Only trigger the click handler if not dragging
+      onClick(task); // Trigger the onClick if it's not a drag
     }
 
     setIsHeld(false);
-    setIsDragging(false); // reset drag visual state
+    setIsDragging(false); // Reset dragging visual state
   };
 
+  // Prevent click propagation if dragging
   const handleClick = (e) => {
-    // Prevent the click event from triggering if it's a drag
     if (isDragging) {
-      e.stopPropagation(); // Prevent further propagation of the click event
+      e.stopPropagation(); // Prevent further click events from propagating
     } else {
-      onClick(task); // Proceed with the normal click behavior
+      onClick(task); // Normal click behavior when not dragging
     }
   };
 
   return (
     <div
-      ref={setNodeRef}
-      {...listeners}
-      {...attributes}
-      style={style}
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
-      onClick={handleClick} // Handle click to ensure it's disabled when dragging
+      ref={setNodeRef} // Attach the draggable reference to this div
+      {...listeners} // Spread the listeners (dragging events) here
+      {...attributes} // Spread the attributes for draggable behavior
+      style={style} // Apply dynamic styles based on dragging state
+      onMouseDown={handleMouseDown} // Detect mouse hold
+      onMouseUp={handleMouseUp} // Handle mouse release
+      onClick={handleClick} // Prevent click if dragging
       className={`cursor-grab rounded-xl border border-gray-200 bg-white p-4 shadow hover:shadow-md transition duration-200 ${
-        isDragging ? 'scale-95' : ''
+        isDragging ? "scale-95" : "" // Shrink the task slightly when dragging
       }`}
     >
       <h3 className="font-semibold text-gray-800 text-base">{task.title}</h3>
-      {task.description && (
-        <p className="mt-1 text-sm text-gray-500">{task.description}</p>
-      )}
+      {task.description && <p className="mt-1 text-sm text-gray-500">{task.description}</p>}
     </div>
   );
 }
