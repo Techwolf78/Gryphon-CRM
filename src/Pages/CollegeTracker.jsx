@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { db, ref, get } from "../firebase";
 import { findTaskByProjectId } from "../utils/projectUtils";
 
 const STAGES = [
@@ -10,6 +11,30 @@ const STAGES = [
 export default function CollegeTracker() {
   const [projectId, setProjectId] = useState("");
   const [data, setData] = useState([]);
+  const [allProjectIds, setAllProjectIds] = useState([]);
+
+  useEffect(() => {
+    const fetchAllProjectIds = async () => {
+      const nodes = ["sales", "learning_and_development", "placement"];
+      let ids = new Set();
+
+      for (const node of nodes) {
+        const snapshot = await get(ref(db, node));
+        if (snapshot.exists()) {
+          const tasks = Object.values(snapshot.val());
+          tasks.forEach((task) => {
+            if (task.projectId) {
+              ids.add(task.projectId.toUpperCase());
+            }
+          });
+        }
+      }
+
+      setAllProjectIds(Array.from(ids).sort());
+    };
+
+    fetchAllProjectIds();
+  }, []);
 
   const handleSearch = async () => {
     const results = await Promise.all(
@@ -28,15 +53,20 @@ export default function CollegeTracker() {
           Track College by Project ID
         </h2>
 
-        {/* Project ID Input */}
+        {/* Project ID Dropdown */}
         <div className="mb-6">
           <input
-            type="text"
+            list="project-ids"
             value={projectId}
             onChange={(e) => setProjectId(e.target.value.toUpperCase())}
-            placeholder="Enter Project ID (e.g., PU305)"
+            placeholder="Select or enter Project ID"
             className="w-full p-4 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:outline-none text-lg"
           />
+          <datalist id="project-ids">
+            {allProjectIds.map((id) => (
+              <option key={id} value={id} />
+            ))}
+          </datalist>
         </div>
 
         {/* Track Progress Button */}

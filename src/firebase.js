@@ -1,5 +1,3 @@
-// firebase.js
-
 import { initializeApp } from "firebase/app";
 import {
   getDatabase,
@@ -12,11 +10,11 @@ import {
   onValue,
   query,
   orderByChild,
-  equalTo
+  equalTo,
+  remove // 👈 ADD THIS LINE
 } from "firebase/database";
-import { getAuth } from "firebase/auth"; // ✅ Import auth from the correct module
+import { getAuth } from "firebase/auth";
 
-// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyAvLWXhUuzhZP6qazfqOnc4Egx8Hz8P4eo",
   authDomain: "crm-app-f1465.firebaseapp.com",
@@ -28,14 +26,10 @@ const firebaseConfig = {
   measurementId: "G-PM5EDRQV3R"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
-// ✅ Get services
 const db = getDatabase(app);
-const auth = getAuth(app); // Correct way to initialize auth
+const auth = getAuth(app);
 
-// ✅ Export what you need
 export {
   db,
   ref,
@@ -48,5 +42,6 @@ export {
   query,
   orderByChild,
   equalTo,
-  auth // Now correctly exported
+  remove, // 👈 ADD THIS TOO
+  auth
 };

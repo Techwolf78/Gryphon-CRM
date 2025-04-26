@@ -67,30 +67,37 @@ export default function AddBusinessModal({ isOpen, onClose, board = "sales" }) {
       ? Number(studentCount || 0) * Number(costPerStudent || 0)
       : Number(manualTCV || 0);
 
-  const handleAddBusiness = async () => {
-    if (!businessName.trim() || projectIdExists) return;
-
-    const projectId = `${clgCode.toUpperCase()}/${course.toUpperCase()}/${year.toUpperCase()}/${programType.toUpperCase()}/${academicYear}`;
-    const newTaskRef = push(ref(db, board));
-
-    await update(newTaskRef, {
-      title: businessName,
-      address,
-      pocName,
-      phone,
-      status: defaultStatus,
-      clgCode,
-      course,
-      year,
-      programType,
-      academicYear,
-      projectId,
-      totalContractValue,
-    });
-
-    resetForm();
-    onClose();
-  };
+      const handleAddBusiness = async () => {
+        if (!businessName.trim() || projectIdExists) return;
+      
+        const projectId = `${clgCode.toUpperCase()}/${course.toUpperCase()}/${year.toUpperCase()}/${programType.toUpperCase()}/${academicYear}`;
+        const newTaskRef = push(ref(db, board));
+      
+        const taskData = {
+          title: businessName,
+          address,
+          pocName,
+          phone,
+          status: defaultStatus,
+          clgCode,
+          course,
+          year,
+          programType,
+          academicYear,
+          projectId,
+          totalContractValue,
+        };
+      
+        if (hasStudentCount === true) {
+          taskData.std_count = Number(studentCount);
+          taskData.cost_per_std = Number(costPerStudent);
+        }
+      
+        await update(newTaskRef, taskData);
+        resetForm();
+        onClose();
+      };
+      
 
   const resetForm = () => {
     setBusinessName("");

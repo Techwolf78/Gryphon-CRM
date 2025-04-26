@@ -17,6 +17,7 @@ export default function LDKanban() {
   const [tasks, setTasks] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
+  const [mouFyFilter, setMouFyFilter] = useState("ALL"); // Default to "ALL"
   const recentlyTransferred = useRef(new Set());
   const [hoveredColumn, setHoveredColumn] = useState(null);
 
@@ -134,19 +135,23 @@ export default function LDKanban() {
   
     console.log(`✅ Task pushed to Placement`);
   };
-  
-  
 
   // Handle task click to open Task Detail Modal
   const onTaskClick = (task) => setSelectedTask(task);
 
-  // Group tasks by column
+  // Group tasks by column and filter by MOU year
   const tasksByColumn = useMemo(() => {
+    const filteredTasks = mouFyFilter === "ALL"
+      ? tasks
+      : mouFyFilter === "CURRENT"
+      ? tasks.filter((task) => task.mou_fy === "MOU2025-2026")
+      : tasks.filter((task) => task.mou_fy !== "MOU2025-2026"); // Overflow
+
     return COLUMNS.reduce((acc, column) => {
-      acc[column.id] = tasks.filter((task) => task.status === column.id);
+      acc[column.id] = filteredTasks.filter((task) => task.status === column.id);
       return acc;
     }, {});
-  }, [tasks]);
+  }, [tasks, mouFyFilter]);
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
@@ -154,13 +159,34 @@ export default function LDKanban() {
         Learning and Development Kanban Board
       </div>
 
-      <div className="flex justify-end mb-6">
-        <button
-          onClick={() => setShowModal(true)}
-          className="px-5 py-3 bg-[#008370] text-white font-medium rounded-lg shadow hover:bg-[#006B5D] transition"
-        >
-          + Add College
-        </button>
+      <div className="flex justify-between mb-6">
+        <div className="flex items-center space-x-3">
+          <label
+            htmlFor="mouFyFilter"
+            className="text-lg font-medium text-gray-700"
+          >
+            Contract Type:
+          </label>
+          <select
+            id="mouFyFilter"
+            value={mouFyFilter}
+            onChange={(e) => setMouFyFilter(e.target.value)}
+            className="px-6 py-3 bg-white text-gray-800 border border-gray-300 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-green-500 transition ease-in-out duration-300"
+          >
+            <option value="ALL">All MOU</option>
+            <option value="CURRENT">Current</option>
+            <option value="OVERFLOW">Overflow</option>
+          </select>
+        </div>
+
+        <div>
+          <button
+            onClick={() => setShowModal(true)}
+            className="px-5 py-3 bg-[#008370] text-white font-medium rounded-lg shadow hover:bg-[#006B5D] transition"
+          >
+            + Add College
+          </button>
+        </div>
       </div>
 
       <AddBusinessModal

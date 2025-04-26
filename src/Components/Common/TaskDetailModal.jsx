@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { db, ref, update, get } from '../../firebase';
+import { db, ref, update, get, remove } from '../../firebase';
 import { FiRefreshCw } from 'react-icons/fi';
+import { FaTrash } from 'react-icons/fa';
 
 export default function TaskDetailModal({ isOpen, onClose, task, refreshTasks, onRefreshTask }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -36,15 +37,9 @@ export default function TaskDetailModal({ isOpen, onClose, task, refreshTasks, o
       }
 
       const dataEntries = Object.entries(data);
-      const [taskKey, matchedTask] = dataEntries.find(
+      const [taskKey] = dataEntries.find(
         ([, item]) => item.projectId === task.projectId
       ) || [];
-
-      // Using matchedTask for any necessary logic
-      if (matchedTask) {
-        // You can use matchedTask here for any logic or debugging purposes
-        console.log("Matched Task:", matchedTask); // Example: logging it
-      }
 
       if (!taskKey) {
         alert("Task not found in the selected category.");
@@ -67,6 +62,37 @@ export default function TaskDetailModal({ isOpen, onClose, task, refreshTasks, o
     }
   };
 
+  const handleDelete = async () => {
+    const confirmDelete = window.confirm(
+      `Are you sure you want to delete the college "${task.title}"? This action is irreversible.`
+    );
+    if (!confirmDelete) return;
+
+    try {
+      const categoryRef = ref(db, `${task.category}`);
+      const snapshot = await get(categoryRef);
+      const data = snapshot.val();
+
+      const dataEntries = Object.entries(data);
+      const [taskKey] = dataEntries.find(
+        ([, item]) => item.projectId === task.projectId
+      ) || [];
+
+      if (!taskKey) {
+        alert("Task not found in the selected category.");
+        return;
+      }
+
+      const taskRef = ref(db, `${task.category}/${taskKey}`);
+      await remove(taskRef);
+      if (refreshTasks) await refreshTasks();
+      onClose();
+    } catch (err) {
+      console.error("Error deleting task:", err);
+      alert("Failed to delete the task.");
+    }
+  };
+
   const renderField = (label, field, isCurrency = false, isNumber = false) => (
     <div>
       <span className="font-medium text-gray-600 dark:text-gray-300">{label}:</span>
@@ -85,42 +111,39 @@ export default function TaskDetailModal({ isOpen, onClose, task, refreshTasks, o
     </div>
   );
 
+  // Remove Status editing functionality, always show it as read-only
   const renderStatusField = () => (
     <div>
       <span className="font-medium text-gray-600 dark:text-gray-300">Status:</span>
+      <p
+        className={`text-lg font-semibold ${
+          task.status === 'COMPLETED'
+            ? 'text-green-500'
+            : task.status === 'PLACED'
+            ? 'text-blue-500'
+            : task.status === 'OFFERED'
+            ? 'text-orange-500'
+            : 'text-gray-800'
+        } dark:text-white`}
+      >
+        {task.status}
+      </p>
+    </div>
+  );
+
+  // Add the Program Type field rendering here
+  const renderProgramTypeField = () => (
+    <div>
+      <span className="font-medium text-gray-600 dark:text-gray-300">Program Type:</span>
       {isEditing ? (
-        <select
-          value={editedTask.status || ''}
-          onChange={(e) => handleChange('status', e.target.value)}
+        <input
+          type="text"
+          value={editedTask.programType || ''}
+          onChange={(e) => handleChange('programType', e.target.value)}
           className="w-full p-2 mt-1 rounded border dark:bg-gray-700 dark:text-white"
-        >
-          <option value="COLD">COLD</option>
-          <option value="WARM">WARM</option>
-          <option value="ON_CALL">ON_CALL</option>
-          <option value="PLANNING">PLANNING</option>
-          <option value="PHASE_1">PHASE_1</option>
-          <option value="PHASE_2">PHASE_2</option>
-          <option value="PHASE_3">PHASE_3</option>
-          <option value="COMPLETED">COMPLETED</option>
-          <option value="APPLIED">APPLIED</option>
-          <option value="INTERVIEWED">INTERVIEWED</option>
-          <option value="OFFERED">OFFERED</option>
-          <option value="PLACED">PLACED</option>
-        </select>
+        />
       ) : (
-        <p
-          className={`text-lg font-semibold ${
-            task.status === 'COMPLETED'
-              ? 'text-green-500'
-              : task.status === 'PLACED'
-              ? 'text-blue-500'
-              : task.status === 'OFFERED'
-              ? 'text-orange-500'
-              : 'text-gray-800'
-          } dark:text-white`}
-        >
-          {task.status}
-        </p>
+        <p className="text-lg text-gray-800 dark:text-white">{task.programType}</p>
       )}
     </div>
   );
@@ -161,18 +184,28 @@ export default function TaskDetailModal({ isOpen, onClose, task, refreshTasks, o
         {/* Fields */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
           {renderField("College Name", "title")}
-          {renderStatusField()}
+          {renderStatusField()} {/* Status is now read-only */}
           {renderField("Project ID", "projectId")}
           {renderField("Address", "address")}
-          {renderField("Point of Contact", "poc_name")}
-          {renderField("Phone No", "phone_no")}
+          {renderField("Point of Contact", "pocName")}
+          {renderField("Phone No", "phone")}
           {renderField("Student Count", "std_count", false, true)}
           {renderField("Cost per Student", "cost_per_std", true, true)}
-          {renderField("Total Contract Value", "total_contract_value", true, true)}
+          {renderField("Total Contract Value", "totalContractValue", true, true)}
+          {renderProgramTypeField()} {/* Program Type field */}
         </div>
 
-        {/* Close Button */}
-        <div className="flex justify-end mt-8">
+        {/* Bottom Buttons */}
+        <div className="flex justify-between items-center mt-8">
+          {/* Delete Button */}
+          <button
+            onClick={handleDelete}
+            className="flex items-center gap-2 px-4 py-2 hover:bg-red-700 hover:text-white text-red-600 rounded-full  transition"
+          >
+            <FaTrash /> Delete
+          </button>
+
+          {/* Close Button */}
           <button
             onClick={onClose}
             className="px-6 py-2 bg-gradient-to-r from-[#008370] to-[#006B5D] text-white rounded-full shadow-md hover:from-[#006B5D] hover:to-[#008370] transition-all duration-300"

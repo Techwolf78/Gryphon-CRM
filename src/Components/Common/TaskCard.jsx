@@ -70,7 +70,12 @@ export function TaskCard({ task, isOverlay = false, onClick }) {
       }`}
     >
       <h3 className="font-semibold text-gray-800 text-base">{task.title}</h3>
-      {task.description && <p className="mt-1 text-sm text-gray-500">{task.description}</p>}
+
+
+            {/* Display the mou_fy value in a small text below the description */}
+            {task.mou_fy && (
+        <p className="mt-2 text-[10px] text-gray-700">{task.mou_fy}</p>
+      )}
     </div>
   );
 }

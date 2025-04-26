@@ -6,11 +6,13 @@
       "title": "University of Mumbai",
       "projectId": "UMU101",
       "address": "Address of University of Mumbai",
-      "poc_name": "John Doe",
-      "phone_no": "+91 1234567890",
+      "pocName": "John Doe",
+      "phone": "+91 1234567890",
       "std_count": 500,
       "cost_per_std": 1000,
-      "total_contract_value": 500000
+      "totalContractValue": 500000,
+      "mou_fy": "MOU2024-2025",
+      "programType": "TP"
     },
     {
       "category": "learning_and_development",
@@ -18,11 +20,13 @@
       "title": "Delhi University",
       "projectId": "DU102",
       "address": "Address of Delhi University",
-      "poc_name": "Jane Smith",
-      "phone_no": "+91 9876543210",
+      "pocName": "Jane Smith",
+      "phone": "+91 9876543210",
       "std_count": 600,
       "cost_per_std": 1200,
-      "total_contract_value": 720000
+      "totalContractValue": 720000,
+      "mou_fy": "MOU2025-2026",
+      "programType": "OT"
     },
     {
       "category": "learning_and_development",
@@ -30,11 +34,13 @@
       "title": "Manipal University",
       "projectId": "MU103",
       "address": "Address of Manipal University",
-      "poc_name": "Robert Brown",
-      "phone_no": "+91 1122334455",
+      "pocName": "Robert Brown",
+      "phone": "+91 1122334455",
       "std_count": 700,
       "cost_per_std": 1500,
-      "total_contract_value": 1050000
+      "totalContractValue": 1050000,
+      "mou_fy": "MOU2023-2024",
+      "programType": "TP"
     },
     {
       "category": "learning_and_development",
@@ -42,11 +48,13 @@
       "title": "Amity University",
       "projectId": "AU104",
       "address": "Address of Amity University",
-      "poc_name": "Alice Green",
-      "phone_no": "+91 5566778899",
+      "pocName": "Alice Green",
+      "phone": "+91 5566778899",
       "std_count": 300,
       "cost_per_std": 900,
-      "total_contract_value": 270000
+      "totalContractValue": 270000,
+      "mou_fy": "MOU2024-2025",
+      "programType": "TP"
     },
     {
       "category": "learning_and_development",
@@ -54,11 +62,13 @@
       "title": "Jadavpur University",
       "projectId": "JU105",
       "address": "Address of Jadavpur University",
-      "poc_name": "Charlie White",
-      "phone_no": "+91 6677889900",
+      "pocName": "Charlie White",
+      "phone": "+91 6677889900",
       "std_count": 400,
       "cost_per_std": 1100,
-      "total_contract_value": 440000
+      "totalContractValue": 440000,
+      "mou_fy": "MOU2025-2026",
+      "programType": "OT"
     }
   ],
   "placement": [
@@ -68,11 +78,13 @@
       "title": "Banaras Hindu University",
       "projectId": "BHU201",
       "address": "Address of Banaras Hindu University",
-      "poc_name": "John Doe",
-      "phone_no": "+91 1234567890",
+      "pocName": "John Doe",
+      "phone": "+91 1234567890",
       "std_count": 200,
       "cost_per_std": 1500,
-      "total_contract_value": 300000
+      "totalContractValue": 300000,
+      "mou_fy": "MOU2023-2024",
+      "programType": "TP"
     },
     {
       "category": "placement",
@@ -80,11 +92,13 @@
       "title": "VIT University",
       "projectId": "VIT202",
       "address": "Address of VIT University",
-      "poc_name": "Jane Smith",
-      "phone_no": "+91 9876543210",
+      "pocName": "Jane Smith",
+      "phone": "+91 9876543210",
       "std_count": 180,
       "cost_per_std": 1300,
-      "total_contract_value": 234000
+      "totalContractValue": 234000,
+      "mou_fy": "MOU2024-2025",
+      "programType": "OT"
     },
     {
       "category": "placement",
@@ -92,11 +106,13 @@
       "title": "SRM University",
       "projectId": "SRM203",
       "address": "Address of SRM University",
-      "poc_name": "Robert Brown",
-      "phone_no": "+91 1122334455",
+      "pocName": "Robert Brown",
+      "phone": "+91 1122334455",
       "std_count": 250,
       "cost_per_std": 1600,
-      "total_contract_value": 400000
+      "totalContractValue": 400000,
+      "mou_fy": "MOU2025-2026",
+      "programType": "TP"
     },
     {
       "category": "placement",
@@ -104,11 +120,13 @@
       "title": "Thapar University",
       "projectId": "TU204",
       "address": "Address of Thapar University",
-      "poc_name": "Alice Green",
-      "phone_no": "+91 5566778899",
+      "pocName": "Alice Green",
+      "phone": "+91 5566778899",
       "std_count": 220,
       "cost_per_std": 1450,
-      "total_contract_value": 319000
+      "totalContractValue": 319000,
+      "mou_fy": "MOU2023-2024",
+      "programType": "OT"
     },
     {
       "category": "placement",
@@ -116,11 +134,13 @@
       "title": "College of Engineering Pune",
       "projectId": "COEP205",
       "address": "Address of College of Engineering Pune",
-      "poc_name": "Charlie White",
-      "phone_no": "+91 6677889900",
+      "pocName": "Charlie White",
+      "phone": "+91 6677889900",
       "std_count": 200,
       "cost_per_std": 1400,
-      "total_contract_value": 280000
+      "totalContractValue": 280000,
+      "mou_fy": "MOU2024-2025",
+      "programType": "TP"
     }
   ],
   "sales": [
@@ -130,11 +150,13 @@
       "title": "Fergusson College",
       "projectId": "FC301",
       "address": "Address of Fergusson College",
-      "poc_name": "Ava White",
-      "phone_no": "+91 2345678901",
+      "pocName": "Ava White",
+      "phone": "+91 2345678901",
       "std_count": 150,
       "cost_per_std": 1000,
-      "total_contract_value": 150000
+      "totalContractValue": 150000,
+      "mou_fy": "MOU2025-2026",
+      "programType": "TP"
     },
     {
       "category": "sales",
@@ -142,11 +164,13 @@
       "title": "Symbiosis International University",
       "projectId": "SIU302",
       "address": "Address of Symbiosis International University",
-      "poc_name": "Ben Adams",
-      "phone_no": "+91 3456789012",
+      "pocName": "Ben Adams",
+      "phone": "+91 3456789012",
       "std_count": 200,
       "cost_per_std": 1200,
-      "total_contract_value": 240000
+      "totalContractValue": 240000,
+      "mou_fy": "MOU2023-2024",
+      "programType": "OT"
     },
     {
       "category": "sales",
@@ -154,11 +178,13 @@
       "title": "MIT World Peace University",
       "projectId": "MITWPU303",
       "address": "Address of MIT World Peace University",
-      "poc_name": "Charlie Brown",
-      "phone_no": "+91 4567890123",
+      "pocName": "Charlie Brown",
+      "phone": "+91 4567890123",
       "std_count": 180,
       "cost_per_std": 1100,
-      "total_contract_value": 198000
+      "totalContractValue": 198000,
+      "mou_fy": "MOU2024-2025",
+      "programType": "TP"
     },
     {
       "category": "sales",
@@ -166,11 +192,13 @@
       "title": "Bharati Vidyapeeth University",
       "projectId": "BVU304",
       "address": "Address of Bharati Vidyapeeth University",
-      "poc_name": "David Grey",
-      "phone_no": "+91 5678901234",
+      "pocName": "David Grey",
+      "phone": "+91 5678901234",
       "std_count": 170,
       "cost_per_std": 1050,
-      "total_contract_value": 178500
+      "totalContractValue": 178500,
+      "mou_fy": "MOU2025-2026",
+      "programType": "OT"
     },
     {
       "category": "sales",
@@ -178,11 +206,13 @@
       "title": "Pune University",
       "projectId": "PU305",
       "address": "Address of Pune University",
-      "poc_name": "Ella Gold",
-      "phone_no": "+91 6789012345",
+      "pocName": "Ella Gold",
+      "phone": "+91 6789012345",
       "std_count": 160,
       "cost_per_std": 950,
-      "total_contract_value": 152000
+      "totalContractValue": 152000,
+      "mou_fy": "MOU2023-2024",
+      "programType": "TP"
     }
   ]
 }
