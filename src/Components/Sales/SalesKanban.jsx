@@ -115,12 +115,15 @@ export default function SalesKanban() {
     const taskRef = ref(db, "learning_and_development");
     const newTaskRef = push(taskRef);
   
+    const { id: _, ...taskWithoutId } = task; // ✅ omitting `id` cleanly
+  
     await update(newTaskRef, {
-      ...task, // 👈 Push the full object
-      status: "PLANNING", // 👈 Override status to first column
-      category: "learning_and_development", // 👈 Ensure category is set
+      ...taskWithoutId,
+      status: "PLANNING",
+      category: "learning_and_development",
     });
   };
+  
   
   
 

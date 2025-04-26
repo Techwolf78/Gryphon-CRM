@@ -50,16 +50,25 @@ export function Column({ column, tasks, isHovered, brandColor = "#008370", onTas
       </div>
 
       <div
-        ref={setNodeRef}
-        className="flex-1 p-4 flex flex-col gap-4 relative min-h-[100px]"
-      >
-        {isHovered && (
-          <div className="absolute top-0 left-0 w-full h-full bg-[#E6F6F4] opacity-50 rounded-lg border-2 border-dashed border-[#008370] pointer-events-none z-0 animate-pulse" />
-        )}
-        {tasks.map((task) => (
-          <TaskCard key={task.id} task={task} onClick={onTaskClick} />
-        ))}
+  ref={setNodeRef}
+  className={`flex-1 p-4 flex flex-col gap-4 relative min-h-[100px] transition-all duration-200 ${
+    isHovered ? "pb-24" : ""
+  }`}
+>
+  {isHovered && (
+    <>
+      <div className="absolute top-0 left-0 w-full h-full bg-[#E6F6F4] opacity-50 rounded-lg border-2 border-dashed border-[#008370] pointer-events-none z-0 animate-pulse" />
+      {/* Dropzone at the bottom */}
+      <div className="h-20 w-auto mt-4 border-2 border-dashed border-green-600 rounded-md bg-green-50 flex items-center justify-center text-green-700 font-medium z-10 animate-pulse">
+        Drop task here
       </div>
+    </>
+  )}
+  {tasks.map((task) => (
+    <TaskCard key={task.id} task={task} onClick={onTaskClick} />
+  ))}
+</div>
+
     </div>
   );
 }

@@ -104,22 +104,24 @@ export default function LDKanban() {
     update(taskRef, { status: newStatus });
   };
 
-  // Create task in placement after completion
   const createTaskInPlacement = async (taskId) => {
     const task = tasks.find((t) => t.id === taskId);
     if (!task || recentlyTransferred.current.has(task.projectId)) return;
-
+  
     recentlyTransferred.current.add(task.projectId);
-
+  
     const taskRef = ref(db, "placement");
     const newTaskRef = push(taskRef);
-
+  
+    const { id: _, ...taskWithoutId } = task; // 👈 Remove 'id' before pushing
+  
     await update(newTaskRef, {
-      ...task, // 👈 Full task data
-      status: "APPLIED", // 👈 Reset status to first column
-      category: "placement", // 👈 Ensure category is set
+      ...taskWithoutId,
+      status: "APPLIED", // Reset to first column
+      category: "placement",
     });
   };
+  
 
   // Handle task click to open Task Detail Modal
   const onTaskClick = (task) => setSelectedTask(task);

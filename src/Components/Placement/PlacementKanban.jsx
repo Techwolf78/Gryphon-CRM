@@ -96,12 +96,15 @@ export default function PlacementKanban() {
   
     recentlyTransferred.current.add(task.projectId);
   
+    const { id: _, ...taskWithoutId } = task; // 👈 Clean removal
+  
     const completedRef = push(ref(db, "completed_placements"));
     await update(completedRef, {
-      ...task, // ✅ Full record for auditing or reports
+      ...taskWithoutId,
       placedAt: new Date().toISOString(),
     });
   };
+  
   
 
   const tasksByColumn = useMemo(() => {
