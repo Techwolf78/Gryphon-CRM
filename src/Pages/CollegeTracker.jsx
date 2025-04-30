@@ -12,6 +12,7 @@ export default function CollegeTracker() {
   const [projectId, setProjectId] = useState("");
   const [data, setData] = useState([]);
   const [allProjectIds, setAllProjectIds] = useState([]);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchAllProjectIds = async () => {
@@ -37,13 +38,29 @@ export default function CollegeTracker() {
   }, []);
 
   const handleSearch = async () => {
+    setError("");
+    setData([]);
+
     const results = await Promise.all(
       STAGES.map(async (stage) => {
         const task = await findTaskByProjectId(stage.path, projectId);
-        return { stage: stage.label, status: task?.status || "❌ Not Found" };
+        return task ? { stage: stage.label, status: task.status } : null;
       })
     );
-    setData(results);
+
+    const filteredResults = results.filter((item) => item !== null);
+
+    if (filteredResults.length === 0) {
+      setError("❌ Project ID not found in any stage.");
+    } else {
+      setData(filteredResults);
+    }
+  };
+
+  const clearInput = () => {
+    setProjectId("");
+    setData([]);
+    setError("");
   };
 
   return (
@@ -53,21 +70,34 @@ export default function CollegeTracker() {
           Track College by Project ID
         </h2>
 
-        {/* Project ID Dropdown */}
-        <div className="mb-6">
-          <input
-            list="project-ids"
-            value={projectId}
-            onChange={(e) => setProjectId(e.target.value.toUpperCase())}
-            placeholder="Select or enter Project ID"
-            className="w-full p-4 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:outline-none text-lg"
-          />
-          <datalist id="project-ids">
-            {allProjectIds.map((id) => (
-              <option key={id} value={id} />
-            ))}
-          </datalist>
-        </div>
+{/* Project ID Input with Clear Button (outside input) */}
+<div className="mb-6 flex items-center gap-2">
+  <div className="relative w-full">
+    <input
+      list="project-ids"
+      value={projectId}
+      onChange={(e) => setProjectId(e.target.value.toUpperCase())}
+      placeholder="Select or enter Project ID"
+      className="w-full p-4 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:outline-none text-lg"
+    />
+    <datalist id="project-ids">
+      {allProjectIds.map((id) => (
+        <option key={id} value={id} />
+      ))}
+    </datalist>
+  </div>
+
+  {projectId && (
+    <button
+      onClick={clearInput}
+      title="Clear input"
+      className="text-gray-500 hover:text-red-600 px-3 py-2 rounded-full text-3xl font-bold focus:outline-none transition transform hover:scale-110"
+    >
+      &times;
+    </button>
+  )}
+</div>
+
 
         {/* Track Progress Button */}
         <button
@@ -76,6 +106,13 @@ export default function CollegeTracker() {
         >
           Track Progress
         </button>
+
+        {/* Error Message */}
+        {error && (
+          <div className="mt-6 text-center text-red-600 font-semibold">
+            {error}
+          </div>
+        )}
 
         {/* Results Table */}
         {data.length > 0 && (
@@ -96,13 +133,7 @@ export default function CollegeTracker() {
                     <td className="px-6 py-3 border-b font-medium text-gray-700">
                       {item.stage}
                     </td>
-                    <td
-                      className={`px-6 py-3 border-b text-lg ${
-                        item.status.includes("❌")
-                          ? "text-red-500"
-                          : "text-green-600"
-                      }`}
-                    >
+                    <td className="px-6 py-3 border-b text-lg text-green-600">
                       {item.status}
                     </td>
                   </tr>
