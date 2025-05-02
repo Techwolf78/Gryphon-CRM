@@ -1,4 +1,4 @@
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import { db, ref, get, push, update } from "../../firebase";
 
 export default function AddBusinessModal({ isOpen, onClose, board = "sales" }) {
@@ -67,37 +67,36 @@ export default function AddBusinessModal({ isOpen, onClose, board = "sales" }) {
       ? Number(studentCount || 0) * Number(costPerStudent || 0)
       : Number(manualTCV || 0);
 
-      const handleAddBusiness = async () => {
-        if (!businessName.trim() || projectIdExists) return;
-      
-        const projectId = `${clgCode.toUpperCase()}/${course.toUpperCase()}/${year.toUpperCase()}/${programType.toUpperCase()}/${academicYear}`;
-        const newTaskRef = push(ref(db, board));
-      
-        const taskData = {
-          title: businessName,
-          address,
-          pocName,
-          phone,
-          status: defaultStatus,
-          clgCode,
-          course,
-          year,
-          programType,
-          academicYear,
-          projectId,
-          totalContractValue,
-        };
-      
-        if (hasStudentCount === true) {
-          taskData.std_count = Number(studentCount);
-          taskData.cost_per_std = Number(costPerStudent);
-        }
-      
-        await update(newTaskRef, taskData);
-        resetForm();
-        onClose();
-      };
-      
+  const handleAddBusiness = async () => {
+    if (!businessName.trim() || projectIdExists) return;
+
+    const projectId = `${clgCode.toUpperCase()}/${course.toUpperCase()}/${year.toUpperCase()}/${programType.toUpperCase()}/${academicYear}`;
+    const newTaskRef = push(ref(db, board));
+
+    const taskData = {
+      title: businessName,
+      address,
+      pocName,
+      phone,
+      status: defaultStatus,
+      clgCode,
+      course,
+      year,
+      programType,
+      academicYear,
+      projectId,
+      totalContractValue,
+    };
+
+    if (hasStudentCount === true) {
+      taskData.std_count = Number(studentCount);
+      taskData.cost_per_std = Number(costPerStudent);
+    }
+
+    await update(newTaskRef, taskData);
+    resetForm();
+    onClose();
+  };
 
   const resetForm = () => {
     setBusinessName("");
@@ -121,11 +120,11 @@ export default function AddBusinessModal({ isOpen, onClose, board = "sales" }) {
 
   return (
     <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded-xl shadow-xl w-full max-w-2xl overflow-y-auto max-h-[95vh]">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6">Add New Leads</h2>
+      <div className="bg-white p-6 rounded-xl shadow-xl w-full max-w-3xl overflow-y-auto max-h-[95vh]">
+        <h2 className="text-2xl font-bold text-gray-800 mb-2">Add New Leads</h2>
 
         {/* Business Name */}
-        <div className="mb-4">
+        <div className="mb-2">
           <label className="block text-sm font-semibold text-gray-600 mb-2">
             Business Name
           </label>
@@ -139,9 +138,11 @@ export default function AddBusinessModal({ isOpen, onClose, board = "sales" }) {
         </div>
 
         {/* Address, POC, Phone */}
-        <div className="grid grid-cols-3 gap-4 mb-6">
+        <div className="grid grid-cols-3 gap-4 mb-2">
           <div>
-            <label className="block text-sm font-semibold text-gray-600 mb-2">Address</label>
+            <label className="block text-sm font-semibold text-gray-600 mb-2">
+              Address
+            </label>
             <input
               type="text"
               value={address}
@@ -151,7 +152,9 @@ export default function AddBusinessModal({ isOpen, onClose, board = "sales" }) {
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold text-gray-600 mb-2">POC Name</label>
+            <label className="block text-sm font-semibold text-gray-600 mb-2">
+              POC Name
+            </label>
             <input
               type="text"
               value={pocName}
@@ -161,7 +164,9 @@ export default function AddBusinessModal({ isOpen, onClose, board = "sales" }) {
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold text-gray-600 mb-2">Phone No.</label>
+            <label className="block text-sm font-semibold text-gray-600 mb-2">
+              Phone No.
+            </label>
             <input
               type="text"
               value={phone}
@@ -173,9 +178,11 @@ export default function AddBusinessModal({ isOpen, onClose, board = "sales" }) {
         </div>
 
         {/* Project Fields */}
-        <div className="grid grid-cols-2 gap-4 mb-6">
+        <div className="grid grid-cols-3 gap-4 mb-2">
           <div>
-            <label className="block text-sm font-semibold text-gray-600 mb-2">College Code</label>
+            <label className="block text-sm font-semibold text-gray-600 mb-2">
+              College Code
+            </label>
             <input
               type="text"
               value={clgCode}
@@ -185,7 +192,9 @@ export default function AddBusinessModal({ isOpen, onClose, board = "sales" }) {
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold text-gray-600 mb-2">Course</label>
+            <label className="block text-sm font-semibold text-gray-600 mb-2">
+              Course
+            </label>
             <select
               value={course}
               onChange={(e) => setCourse(e.target.value)}
@@ -204,7 +213,9 @@ export default function AddBusinessModal({ isOpen, onClose, board = "sales" }) {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-semibold text-gray-600 mb-2">Year</label>
+            <label className="block text-sm font-semibold text-gray-600 mb-2">
+              Year
+            </label>
             <input
               type="text"
               value={year}
@@ -214,7 +225,9 @@ export default function AddBusinessModal({ isOpen, onClose, board = "sales" }) {
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold text-gray-600 mb-2">Type of Program</label>
+            <label className="block text-sm font-semibold text-gray-600 mb-2">
+              Type of Program
+            </label>
             <input
               type="text"
               value={programType}
@@ -224,7 +237,9 @@ export default function AddBusinessModal({ isOpen, onClose, board = "sales" }) {
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold text-gray-600 mb-2">Academic Year</label>
+            <label className="block text-sm font-semibold text-gray-600 mb-2">
+              Academic Year
+            </label>
             <input
               type="text"
               value={academicYear}
@@ -233,97 +248,103 @@ export default function AddBusinessModal({ isOpen, onClose, board = "sales" }) {
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#008370]"
             />
             {projectIdExists && !checkingProjectId && (
-              <p className="text-sm text-red-600 mt-1">This project ID already exists.</p>
+              <p className="text-sm text-red-600 mt-1">
+                This project ID already exists.
+              </p>
             )}
           </div>
         </div>
 
-  {/* Student Count Logic */}
-<div className="mb-6">
-  <label className="block text-sm font-semibold text-gray-600 mb-2">
-    Do you have the Student Count?
-  </label>
-  <div className="flex gap-4">
-    <label className="flex items-center gap-2">
-      <input
-        type="radio"
-        value="yes"
-        checked={hasStudentCount === true}
-        onChange={() => setHasStudentCount(true)}
-      />
-      Yes
-    </label>
-    <label className="flex items-center gap-2">
-      <input
-        type="radio"
-        value="no"
-        checked={hasStudentCount === false}
-        onChange={() => setHasStudentCount(false)}
-      />
-      No
-    </label>
-  </div>
+        {/* Student Count Logic */}
+        <div className="mb-2">
+          <label className="block text-sm font-semibold text-gray-600 mb-2">
+            Do you have the Student Count?
+          </label>
+          <div className="flex gap-4">
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                value="yes"
+                checked={hasStudentCount === true}
+                onChange={() => setHasStudentCount(true)}
+              />
+              Yes
+            </label>
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                value="no"
+                checked={hasStudentCount === false}
+                onChange={() => setHasStudentCount(false)}
+              />
+              No
+            </label>
+          </div>
 
-  {hasStudentCount === true && (
-    <div className="grid grid-cols-3 gap-4 mt-4">
-      <div>
-        <label className="block text-sm font-semibold text-gray-600 mb-2">
-          Student Count
-        </label>
-        <input
-          type="number"
-          value={studentCount}
-          onChange={(e) => setStudentCount(e.target.value)}
-          placeholder="e.g. 100"
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#008370]"
-        />
-      </div>
-      <div>
-        <label className="block text-sm font-semibold text-gray-600 mb-2">
-          Cost per Student
-        </label>
-        <input
-          type="number"
-          value={costPerStudent}
-          onChange={(e) => setCostPerStudent(e.target.value)}
-          placeholder="e.g. 2000"
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#008370]"
-        />
-      </div>
-      <div>
-        <label className="block text-sm font-semibold text-gray-600 mb-2">
-          Total Contract Value
-        </label>
-        <input
-          type="text"
-          value={Number(studentCount || 0) * Number(costPerStudent || 0)}
-          readOnly
-          className="w-full px-4 py-2 border bg-gray-100 text-gray-800 border-gray-300 rounded-lg"
-        />
-      </div>
-    </div>
-  )}
+          {hasStudentCount === true && (
+            <div className="grid grid-cols-3 gap-4 mt-1">
+              <div>
+                <label className="block text-sm font-semibold text-gray-600 mb-2">
+                  Student Count
+                </label>
+                <input
+                  type="number"
+                  value={studentCount}
+                  onChange={(e) => setStudentCount(e.target.value)}
+                  placeholder="e.g. 100"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#008370]"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-600 mb-2">
+                  Cost per Student
+                </label>
+                <input
+                  type="number"
+                  value={costPerStudent}
+                  onChange={(e) => setCostPerStudent(e.target.value)}
+                  placeholder="e.g. 2000"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#008370]"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-600 mb-2">
+                  Total Contract Value
+                </label>
+                <input
+                  type="text"
+                  value={
+                    Number(studentCount || 0) * Number(costPerStudent || 0)
+                  }
+                  readOnly
+                  className="w-full px-4 py-2 border bg-gray-100 text-gray-800 border-gray-300 rounded-lg"
+                />
+              </div>
+            </div>
+          )}
 
-  {hasStudentCount === false && (
-    <div className="mt-4">
-      <label className="block text-sm font-semibold text-gray-600 mb-2">
-        Total Contract Value
-      </label>
-      <input
-        type="number"
-        value={manualTCV}
-        onChange={(e) => setManualTCV(e.target.value)}
-        placeholder="e.g. 200000"
-        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#008370]"
-      />
-    </div>
-  )}
-</div>
+          {hasStudentCount === false && (
+            <div className="mt-4">
+              <label className="block text-sm font-semibold text-gray-600 mb-2">
+                Total Contract Value
+              </label>
+              <input
+                type="number"
+                value={manualTCV}
+                onChange={(e) => setManualTCV(e.target.value)}
+                placeholder="e.g. 200000"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#008370]"
+              />
+            </div>
+          )}
+        </div>
 
-        <div className="flex justify-between items-center mt-6">
+        <div className="flex justify-between items-center mt-4">
           <button
             onClick={handleAddBusiness}
-            disabled={!businessName.trim() || projectIdExists || checkingProjectId}
+            disabled={
+              !businessName.trim() || projectIdExists || checkingProjectId
+            }
             className={`px-5 py-2.5 rounded-lg text-white font-medium transition flex items-center justify-center gap-2 ${
               !businessName.trim() || projectIdExists || checkingProjectId
                 ? "bg-gray-400 cursor-not-allowed"
@@ -332,9 +353,25 @@ export default function AddBusinessModal({ isOpen, onClose, board = "sales" }) {
           >
             {checkingProjectId ? (
               <>
-                <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+                <svg
+                  className="animate-spin h-4 w-4 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                  />
                 </svg>
                 Checking...
               </>
