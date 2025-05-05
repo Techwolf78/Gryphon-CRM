@@ -39,7 +39,7 @@ const Layout = ({ children }) => {
     <div className="flex h-screen">
       {/* Sidebar */}
       <div
-        className={`${isOpen ? 'w-64' : 'w-20'} transition-all duration-300 flex flex-col justify-between`}
+        className={`${isOpen ? 'w-44' : 'w-20'} transition-all duration-300 flex flex-col justify-between`}
         style={{ backgroundColor: '#006B5D' }} // Dark green background
       >
         <div>

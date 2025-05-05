@@ -228,14 +228,19 @@ export default function AddBusinessModal({ isOpen, onClose, board = "sales" }) {
             <label className="block text-sm font-semibold text-gray-600 mb-2">
               Type of Program
             </label>
-            <input
-              type="text"
+            <select
               value={programType}
-              onChange={(e) => setProgramType(e.target.value.toUpperCase())}
-              placeholder="e.g. TP"
+              onChange={(e) => setProgramType(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#008370]"
-            />
+            >
+              <option value="">Select Program Type</option>
+              <option value="TP">TP</option>
+              <option value="OT">OT</option>
+              <option value="IP">IP</option>
+              <option value="DM">DM</option>
+            </select>
           </div>
+
           <div>
             <label className="block text-sm font-semibold text-gray-600 mb-2">
               Academic Year
